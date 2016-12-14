@@ -2,13 +2,13 @@ let Sequelize = require('sequelize');
 let db = require('./_db');
 
 
-let Prompts = db.define('prompts',{
-  contents: {
-    type: Sequelize.TEXT,
+let Courses = db.define('courses',{
+  course: {
+    type: Sequelize.STRING,
     allowNull: false
   }
 },{});
 
 
 
-module.exports = Prompts;
+module.exports = Courses;
