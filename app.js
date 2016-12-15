@@ -27,7 +27,7 @@ app.use('/prompts', promptRouter);
 
 
 app.get('/', function (req, res, next) {
-  res.send('Hello over port 3000')
+  res.send('HERE!')
 });
 
 

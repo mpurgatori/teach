@@ -6,6 +6,9 @@ let Replies = db.define('replies',{
   content: {
     type: Sequelize.TEXT,
     allowNull: false
+  },
+  feedback: {
+    type: Sequelize.TEXT,
   }
 },{});
 

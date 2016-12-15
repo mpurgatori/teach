@@ -3,7 +3,7 @@ let db = require('./_db');
 
 
 let Prompts = db.define('prompts',{
-  contents: {
+  content: {
     type: Sequelize.TEXT,
     allowNull: false
   }
