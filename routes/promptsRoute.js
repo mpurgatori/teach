@@ -5,7 +5,10 @@ const Prompts = require('../models/prompts');
 
 
 router.get('/', function (req, res) {
-
+  return Prompts.findAll()
+  .then(function(prompts){
+    res.send(prompts);
+  })
 });
 
 
