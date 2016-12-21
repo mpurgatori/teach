@@ -1,21 +1,40 @@
 import React, { Component } from 'react';
-//import axios from 'axios';
+import axios from 'axios';
 import {browserHistory} from 'react-router';
 
 
 class Signup extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props)
+    this.state = {
+      first: '',
+      last:'',
+      email:'',
+      password:'',
+      dirty: false
+    };
+
     this.createUser = this.createUser.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+
   }
 
   createUser(e) {
 
     e.preventDefault();
-    axios.post('/api/users/',{email:e.target.email.value, password:e.target.password.value})
+    axios.post('/api/students/', this.state)
     .then((login)=> browserHistory.push('/'))
     .catch(()=> this.props.router.transitionTo('/'))
+  }
+
+  handleChange(e) {
+    const value = e.target.value;
+    //value = "Mike"
+    const name = e.target.name;
+    this.setState({
+      [name]: value,
+      dirty: true
+    });
   }
 
 
@@ -26,16 +45,27 @@ class Signup extends Component {
           <h1>Signup</h1>
           <form onSubmit={this.createUser}>
             <div className="form-group">
+              <label htmlFor="first">First name</label>
+              <input type="first" name="first" value={this.state.first} className="form-control" id="first" onChange={this.handleChange} aria-describedby="emailHelp" placeholder="Enter first name" />
+            </div>
+            <div className="form-group">
+              <label htmlFor="last">Last name</label>
+              <input type="last" name="last"
+              value={this.state.last}
+              className="form-control" id="last"
+              onChange={this.handleChange} aria-describedby="emailHelp" placeholder="Enter last name" />
+            </div>
+            <div className="form-group">
               <label htmlFor="email">Email address</label>
-              <input type="email" name="email" className="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" />
+              <input type="email" name="email"
+              value={this.state.email} className="form-control" id="email"
+              onChange={this.handleChange} aria-describedby="emailHelp" placeholder="Enter email" />
             </div>
             <div className="form-group">
               <label htmlFor="password">Password</label>
-              <input type="password" name="password" className="form-control" id="password" placeholder="Password" />
-            </div>
-            <div className="form-group">
-              <label htmlFor="confirmation_password">Confirm Password</label>
-              <input type="password" className="form-control" id="confirmation_password" placeholder="Password" />
+              <input type="password" name="password" className="form-control" id="password"
+              value={this.state.password}
+              onChange={this.handleChange} placeholder="Password" />
             </div>
             <button type="submit" className="btn btn-primary">Create Account</button>
           </form>

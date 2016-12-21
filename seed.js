@@ -3,61 +3,269 @@
 
 let Promise = require('bluebird');
 let db = require('./models');
-let Categories = require('./models/categories');
-let Courses = require('./models/courses');
-let Prompts = require('./models/prompts');
-let Replies = require('./models/replies');
-let Students = require('./models/students');
-let Teachers = require('./models/teachers');
+let Category = require('./models/categories');
+let Course = require('./models/courses');
+let Prompt = require('./models/prompts');
+let Reply = require('./models/replies');
+let Student = require('./models/students');
+let Teacher = require('./models/teachers');
 
 
 
 let data = {
-  categories: [
-    {content: "Verbs" },
-    {content: "Adverbs" },
-    {content: "Nouns" }
-  ],
-  courses: [
-    {course: "ENG 201" },
-    {course: "MATH 300" },
-    {course: "CIS 452" }
-  ],
-  prompts: [
-    {content: "Describe a paragraph using a verb." },
-    {content: "Incorporate proper nouns into a sentence." },
-    {content: "Use an adverb." }
-  ],
-  replies: [
-    {content: "The dog jumped.", feedback: "Good use of verb." },
-    {content: "Rummy is a dog.", feedback: "Excellent proper noun use." },
-    {content: "Rummy stood handsomely.", feedback: "Try harder next time." }
-  ],
-  students: [
-    {first: "Fred", last: "Jones" , email: "fjones@email.com"},
-    {first: "Samantha", last: "Smith" , email: "sammys@email.com"},
-    {first: "Juan", last: "Garcia" , email: "numerojuan@email.com"}
-  ],
-  teachers: [
-    {first: "Janice", last: "Elliot" , email: "jelliot@email.com"},
-    {first: "Mark", last: "Goodteach" , email: "mark@email.com"},
-    {first: "Claudia", last: "Whitesox" , email: "claud@email.com"}
-  ],
+    category: [{
+        content: "Verbs"
+    }, {
+        content: "Adverbs"
+    }, {
+        content: "Nouns"
+    }],
+    course: [{
+        name: "ENG 201"
+    }, {
+        name: "MATH 300"
+    }, {
+        name: "CIS 452"
+    }],
+    prompt: [{
+        content: "Describe a paragraph using a verb."
+    }, {
+        content: "Incorporate proper nouns into a sentence."
+    }, {
+        content: "Use an adverb."
+    }],
+    reply: [{
+        content: "The dog jumped.",
+        feedback: "Good use of verb."
+    }, {
+        content: "Rummy is a dog.",
+        feedback: "Excellent proper noun use."
+    }, {
+        content: "Rummy stood handsomely.",
+        feedback: "Try harder next time."
+    }, {
+        content: "Cats are terrible.",
+        feedback: "Just awful"
+    }, {
+        content: "I once ate a racoon.",
+        feedback: "You're killing my buzz."
+    }, {
+        content: "Someone help me finish this thing.",
+        feedback: "get back to work."
+    }, {
+        content: "I love rummys portrait.",
+        feedback: "Piss off!"
+    }, ],
+    student: [{
+        first: "Fred",
+        last: "Jones",
+        email: "fjones@email.com",
+        password: 'one'
+    }, {
+        first: "Samantha",
+        last: "Smith",
+        email: "sammys@email.com",
+        password: 'two'
+    }, {
+        first: "Juan",
+        last: "Garcia",
+        email: "numerojuan@email.com",
+        password: 'three'
+    }],
+    teacher: [{
+        first: "Janice",
+        last: "Elliot",
+        email: "jelliot@email.com"
+    }, {
+        first: "Mark",
+        last: "Goodteach",
+        email: "mark@email.com"
+    }, {
+        first: "Claudia",
+        last: "Whitesox",
+        email: "claud@email.com"
+    }],
 };
 
-db.sync({force: true})
-.then(function () {
-  console.log("Dropped old data, now inserting data");
-  return Promise.map(Object.keys(data), function (name) {
-    return Promise.map(data[name], function (item) {
-      return db.model(name)
-      .create(item);
+
+
+db.sync({
+        force: true
+    })
+    .then(function() {
+        console.log("Dropped old data, now inserting data");
+        return Promise.map(Object.keys(data), function(name) {
+            return Promise.map(data[name], function(item) {
+                return db.model(name)
+                    .create(item);
+            });
+        });
+    })
+    //fill out student course join
+    .then(function() {
+        return Promise.all([
+            Student.findOne({
+                where: {
+                    id: 1
+                }
+            }),
+            Course.findOne({
+                where: {
+                    id: 1
+                }
+            })
+        ]);
+    })
+    .spread(function(student, course) {
+        return course.addStudent(student);
+    })
+    .then(function() {
+        return Promise.all([
+            Student.findOne({
+                where: {
+                    id: 1
+                }
+            }),
+            Course.findOne({
+                where: {
+                    id: 2
+                }
+            })
+        ]);
+    })
+    .spread(function(student, course) {
+        return course.addStudent(student);
+    })
+    .then(function() {
+        return Promise.all([
+            Student.findOne({
+                where: {
+                    id: 2
+                }
+            }),
+            Course.findOne({
+                where: {
+                    id: 2
+                }
+            })
+        ]);
+    })
+    .spread(function(student, course) {
+        return course.addStudent(student);
+    })
+    .then(function() {
+        return Promise.all([
+            Student.findOne({
+                where: {
+                    id: 2
+                }
+            }),
+            Course.findOne({
+                where: {
+                    id: 3
+                }
+            })
+        ]);
+    })
+    .spread(function(student, course) {
+        return course.addStudent(student);
+    })
+    .then(function() {
+        return Promise.all([
+            Student.findOne({
+                where: {
+                    id: 3
+                }
+            }),
+            Course.findOne({
+                where: {
+                    id: 1
+                }
+            })
+        ]);
+    })
+    .spread(function(student, course) {
+        return course.addStudent(student);
+    })
+    .then(function() {
+        return Promise.all([
+            Student.findOne({
+                where: {
+                    id: 3
+                }
+            }),
+            Course.findOne({
+                where: {
+                    id: 3
+                }
+            })
+        ]);
+    })
+    .spread(function(student, course) {
+        return course.addStudent(student);
+    })
+    //fill out reply prompts
+    .then(function() {
+        return Reply.findAll()
+    })
+    .then(function(replyMap) {
+        return Prompt.findAll()
+            .then(function(promptMap) {
+                return Promise.all([
+                    replyMap[0].setPrompt(promptMap[0]),
+                    replyMap[1].setPrompt(promptMap[0]),
+                    replyMap[2].setPrompt(promptMap[1]),
+                    replyMap[3].setPrompt(promptMap[1]),
+                    replyMap[4].setPrompt(promptMap[2]),
+                    replyMap[5].setPrompt(promptMap[2]),
+                    replyMap[6].setPrompt(promptMap[2]),
+                ])
+            })
+    })
+    //fill out student prompts
+    .then(function() {
+        return Reply.findAll()
+    })
+    .then(function(replyMap) {
+        return Student.findAll()
+            .then(function(studentMap) {
+                return Promise.all([
+                    replyMap[0].setStudent(studentMap[0]),
+                    replyMap[1].setStudent(studentMap[0]),
+                    replyMap[2].setStudent(studentMap[0]),
+                    replyMap[3].setStudent(studentMap[1]),
+                    replyMap[4].setStudent(studentMap[2]),
+                    replyMap[5].setStudent(studentMap[1]),
+                    replyMap[6].setStudent(studentMap[2]),
+                ])
+            })
+    })
+    .then(function() {
+        return Prompt.findAll()
+    })
+    .then(function(promptMap) {
+        return Category.findAll()
+            .then(function(catMap) {
+                return Promise.all([
+                    promptMap[0].setCategory(catMap[0]),
+                    promptMap[1].setCategory(catMap[1]),
+                    promptMap[2].setCategory(catMap[2])
+                ])
+            })
+    })
+    .then(function() {
+        return Prompt.findAll()
+    })
+    .then(function(promptMap) {
+        return Course.findAll()
+            .then(function(courseMap) {
+                return Promise.all([
+                    promptMap[0].setCourse(courseMap[0]),
+                    promptMap[1].setCourse(courseMap[1]),
+                    promptMap[2].setCourse(courseMap[2])
+                ])
+            })
+    })
+    .catch(function(err) {
+        console.error('There was totally a problem', err, err.stack);
     });
-  });
-})
-.then(function () {
-  console.log("Finished inserting data (press ctrl-c to exit)");
-})
-.catch(function (err) {
-  console.error('There was totally a problem', err, err.stack);
-});

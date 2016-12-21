@@ -10,7 +10,7 @@ console.log('THIS IS THE PROPS',props);
       <select className="form-control" id="sel1">
         { props.courses.map(course => {
           return (
-            <option key={course.course}>{course.course}</option>
+            <option key={course.name}>{course.name}</option>
          )
        })
      }

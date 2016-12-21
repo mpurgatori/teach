@@ -7,8 +7,8 @@ import {receiveCategories } from '../reducers/categories-action';
 const mapStateToProps = function(state, ownProps) {
     console.log('THIS IS THE STATE', state)
     return {
-        courses: state.allCourses,
-        categories: state.allCategories
+        courses: state.courses.allCourses,
+        categories: state.categories.allCategories
     };
 }
 

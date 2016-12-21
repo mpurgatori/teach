@@ -45,7 +45,7 @@ const onPromptEnter = function (){
 
 ReactDOM.render(
 	<Provider store={store}>
-	<Router history={browserHistory}>
+	<Router history={browserHistory}>  
 	<Route path="/" component={Main}>
 		<Route path="/login" component={Login}/>
 		<Route path="/signup" component={Signup}/>

@@ -21,5 +21,6 @@ export default function (state = initialState, action){
     default:
       return state;
   }
+  console.log('CAT REDUCER:',newState);
   return newState;
 }

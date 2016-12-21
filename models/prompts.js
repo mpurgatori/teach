@@ -2,7 +2,7 @@ let Sequelize = require('sequelize');
 let db = require('./_db');
 
 
-let Prompts = db.define('prompts',{
+let Prompt = db.define('prompt',{
   content: {
     type: Sequelize.TEXT,
     allowNull: false
@@ -11,4 +11,4 @@ let Prompts = db.define('prompts',{
 
 
 
-module.exports = Prompts;
+module.exports = Prompt;

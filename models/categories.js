@@ -2,7 +2,7 @@ let Sequelize = require('sequelize');
 let db = require('./_db');
 
 
-let Categories = db.define('categories',{
+let Category = db.define('category',{
   content: {
     type: Sequelize.STRING,
     allowNull: false
@@ -11,4 +11,4 @@ let Categories = db.define('categories',{
 
 
 
-module.exports = Categories;
+module.exports = Category;

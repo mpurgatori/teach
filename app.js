@@ -1,8 +1,11 @@
 let express = require('express');
 let morgan = require('morgan');
+let session = require('express-session');
+
 const app = express();
 const path = require('path');
 const rootPath = path.join(__dirname);
+
 
 let apiRouter = require('./api');
 
@@ -13,11 +16,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(morgan('default'));
 
+app.use(session({
+  secret:'rummy dog',
+  cookie: {
+    maxAge: 172800
+  }
+}));
+
 app.use('/api', apiRouter);
 
 app.use(express.static('public'))
 
-app.get('/', function (req, res, next) {
+app.get('*', function (req, res, next) {
+  console.log('THIS IS REQ SESSION',req.session);
   res.sendFile(rootPath+'/browser/index.html')
 });
 

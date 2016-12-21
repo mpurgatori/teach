@@ -2,8 +2,8 @@ let Sequelize = require('sequelize');
 let db = require('./_db');
 
 
-let Courses = db.define('courses',{
-  course: {
+let Course = db.define('course',{
+  name: {
     type: Sequelize.STRING,
     allowNull: false
   }
@@ -11,4 +11,4 @@ let Courses = db.define('courses',{
 
 
 
-module.exports = Courses;
+module.exports = Course;

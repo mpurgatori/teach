@@ -2,7 +2,7 @@ let Sequelize = require('sequelize');
 let db = require('./_db');
 
 
-let Replies = db.define('replies',{
+let Reply = db.define('reply',{
   content: {
     type: Sequelize.TEXT,
     allowNull: false
@@ -14,4 +14,4 @@ let Replies = db.define('replies',{
 
 
 
-module.exports = Replies;
+module.exports = Reply;

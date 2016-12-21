@@ -2,7 +2,7 @@ let Sequelize = require('sequelize');
 let db = require('./_db');
 
 
-let Students = db.define('students', {
+let Student = db.define('student', {
   first: {
     type: Sequelize.STRING,
     allowNull: false
@@ -14,9 +14,15 @@ let Students = db.define('students', {
   email: {
     type: Sequelize.STRING,
     allowNull: false,
+    unique: true,
     validate: {
       isEmail: true
     }
+  },
+  password: Sequelize.STRING,
+  isAdmin: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   }
 },
 {
@@ -28,4 +34,4 @@ let Students = db.define('students', {
 }
 )
 
-module.exports = Students;
+module.exports = Student;

@@ -2,7 +2,7 @@ let Sequelize = require('sequelize');
 let db = require('./_db');
 
 
-let Teachers = db.define('teachers', {
+let Teacher = db.define('teacher', {
   first: {
     type: Sequelize.STRING,
     allowNull: false
@@ -17,6 +17,11 @@ let Teachers = db.define('teachers', {
     validate: {
       isEmail: true
     }
+  },
+  password: Sequelize.STRING,
+  isAdmin: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: true
   }
 },
 {
@@ -28,4 +33,4 @@ let Teachers = db.define('teachers', {
 }
 )
 
-module.exports = Teachers;
+module.exports = Teacher;
