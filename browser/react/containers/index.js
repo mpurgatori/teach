@@ -12,18 +12,26 @@ import Main from './main.jsx'
 import Sidebar from '../components/sidebar.jsx'
 import Login from '../components/login.jsx'
 import Signup from '../components/signup.jsx'
-import replyWrite from '../components/reply-write.jsx'
 import promptWrite from './prompt-container.jsx'
+import replyWrite from './reply-container.jsx'
+
 
 
 import { receiveCourses, loadCourses } from '../reducers/courses-action';
 import { receiveCategories, loadCategories } from '../reducers/categories-action';
+import { receivePrompts, loadPrompts } from '../reducers/prompt-action';
 
 
 const onPromptEnter = function (){
   store.dispatch(loadCourses());
 	store.dispatch(loadCategories());
 };
+
+
+const onReplyEnter = function (){
+	store.dispatch(loadPrompts());
+};
+
 
 // const onPromptEnter = function () {
 //   Promise.all([
@@ -45,11 +53,11 @@ const onPromptEnter = function (){
 
 ReactDOM.render(
 	<Provider store={store}>
-	<Router history={browserHistory}>  
+	<Router history={browserHistory}>
 	<Route path="/" component={Main}>
 		<Route path="/login" component={Login}/>
 		<Route path="/signup" component={Signup}/>
-		<Route path="/replywrite" component={replyWrite}/>
+		<Route path="/replywrite" component={replyWrite} onEnter={onReplyEnter}/>
 		<Route path="/promptwrite" component={promptWrite} onEnter={onPromptEnter}/>
 	</Route>
 	</Router>

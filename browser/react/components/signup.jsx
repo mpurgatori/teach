@@ -23,8 +23,8 @@ class Signup extends Component {
 
     e.preventDefault();
     axios.post('/api/students/', this.state)
-    .then((login)=> browserHistory.push('/'))
-    .catch(()=> this.props.router.transitionTo('/'))
+    .then(res => res.data)
+    .then(student => console.log(student));
   }
 
   handleChange(e) {
@@ -46,7 +46,8 @@ class Signup extends Component {
           <form onSubmit={this.createUser}>
             <div className="form-group">
               <label htmlFor="first">First name</label>
-              <input type="first" name="first" value={this.state.first} className="form-control" id="first" onChange={this.handleChange} aria-describedby="emailHelp" placeholder="Enter first name" />
+              <input type="first" name="first" value={this.state.first} className="form-control"
+              id="first" onChange={this.handleChange} aria-describedby="emailHelp" placeholder="Enter first name" />
             </div>
             <div className="form-group">
               <label htmlFor="last">Last name</label>

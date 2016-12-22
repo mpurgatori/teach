@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const Students = require('../models/students');
+const Student = require('../models/students');
 
 
 router.get('/', function (req, res, next) {
@@ -9,7 +9,8 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function(req, res, next){
-  return Students.create(req.body)
+  return Student.create(req.body)
+  .then(student => res.json(student))
   .catch(next);
 })
 

@@ -33,6 +33,8 @@ let data = {
         content: "Incorporate proper nouns into a sentence."
     }, {
         content: "Use an adverb."
+    },{
+        content: "Do something funny....now!."
     }],
     reply: [{
         content: "The dog jumped.",
@@ -75,15 +77,18 @@ let data = {
     teacher: [{
         first: "Janice",
         last: "Elliot",
-        email: "jelliot@email.com"
+        email: "jelliot@email.com",
+        password: "one"
     }, {
         first: "Mark",
         last: "Goodteach",
-        email: "mark@email.com"
+        email: "mark@email.com",
+        password: "two"
     }, {
         first: "Claudia",
         last: "Whitesox",
-        email: "claud@email.com"
+        email: "claud@email.com",
+        password: "three"
     }],
 };
 
@@ -93,7 +98,7 @@ db.sync({
         force: true
     })
     .then(function() {
-        console.log("Dropped old data, now inserting data");
+        console.log("Currently seeding file -> seed.js");
         return Promise.map(Object.keys(data), function(name) {
             return Promise.map(data[name], function(item) {
                 return db.model(name)
@@ -240,6 +245,7 @@ db.sync({
                 ])
             })
     })
+    //Fils out Prompt Categories
     .then(function() {
         return Prompt.findAll()
     })
@@ -249,10 +255,13 @@ db.sync({
                 return Promise.all([
                     promptMap[0].setCategory(catMap[0]),
                     promptMap[1].setCategory(catMap[1]),
-                    promptMap[2].setCategory(catMap[2])
+                    promptMap[2].setCategory(catMap[2]),
+                    promptMap[3].setCategory(catMap[0])
+
                 ])
             })
     })
+    //Fills out prompt courses
     .then(function() {
         return Prompt.findAll()
     })
@@ -262,9 +271,131 @@ db.sync({
                 return Promise.all([
                     promptMap[0].setCourse(courseMap[0]),
                     promptMap[1].setCourse(courseMap[1]),
-                    promptMap[2].setCourse(courseMap[2])
+                    promptMap[2].setCourse(courseMap[2]),
+                    promptMap[3].setCourse(courseMap[2])
                 ])
             })
+    })
+    //
+    .then(function() {
+        return Promise.all([
+            Course.findOne({
+                where: {
+                    id: 1
+                }
+            }),
+            Prompt.findOne({
+                where: {
+                    id: 1
+                }
+            })
+        ]);
+    })
+    .spread(function(course, prompt) {
+        return course.addPrompt(prompt);
+    })
+    .then(function() {
+        return Promise.all([
+            Course.findOne({
+                where: {
+                    id: 2
+                }
+            }),
+            Prompt.findOne({
+                where: {
+                    id: 2
+                }
+            })
+        ]);
+    })
+    .spread(function(course, prompt) {
+        return course.addPrompt(prompt);
+    })
+    .then(function() {
+        return Promise.all([
+            Course.findOne({
+                where: {
+                    id: 3
+                }
+            }),
+            Prompt.findOne({
+                where: {
+                    id: 3
+                }
+            })
+        ]);
+    })
+    .spread(function(course, prompt) {
+        return course.addPrompt(prompt);
+    })
+    .then(function() {
+        return Promise.all([
+            Course.findOne({
+                where: {
+                    id: 3
+                }
+            }),
+            Prompt.findOne({
+                where: {
+                    id: 4
+                }
+            })
+        ]);
+    })
+    .spread(function(course, prompt) {
+        return course.addPrompt(prompt);
+    })
+    //Teachers to course
+    .then(function() {
+        return Promise.all([
+            Teacher.findOne({
+                where: {
+                    id: 1
+                }
+            }),
+            Course.findOne({
+                where: {
+                    id: 1
+                }
+            })
+        ]);
+    })
+    .spread(function(teacher, course) {
+        return teacher.addCourse(course);
+    })
+    .then(function() {
+        return Promise.all([
+            Teacher.findOne({
+                where: {
+                    id: 2
+                }
+            }),
+            Course.findOne({
+                where: {
+                    id: 2
+                }
+            })
+        ]);
+    })
+    .spread(function(teacher, course) {
+        return teacher.addCourse(course);
+    })
+    .then(function() {
+        return Promise.all([
+            Teacher.findOne({
+                where: {
+                    id: 3
+                }
+            }),
+            Course.findOne({
+                where: {
+                    id: 3
+                }
+            })
+        ]);
+    })
+    .spread(function(teacher, course) {
+        return teacher.addCourse(course);
     })
     .catch(function(err) {
         console.error('There was totally a problem', err, err.stack);
