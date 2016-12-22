@@ -4,10 +4,8 @@ import {Link} from 'react-router';
 export default function (props) {
 
 return (
-    {props.prompts.map(prompts => {
-      return (
     <div className = "container" >
-    <div key={prompts.id}>{prompts.content}</div>
+    <div>PROMPT PLACEHOLDER</div>
     <div className="row">
       <div className="col-md-12">
           <div className="well well-sm">
@@ -32,7 +30,5 @@ return (
       </div>
   </div>
   </div>
-      )
-    }
   )
 }

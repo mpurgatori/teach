@@ -30820,7 +30820,7 @@
 	
 	var _reactRedux = __webpack_require__(283);
 	
-	var _replyWrite = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../components/reply-write.jsx\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var _replyWrite = __webpack_require__(305);
 	
 	var _replyWrite2 = _interopRequireDefault(_replyWrite);
 	
@@ -30840,6 +30840,84 @@
 	};
 	
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_replyWrite2.default);
+
+/***/ },
+/* 305 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	exports.default = function (props) {
+	
+	    return _react2.default.createElement(
+	        'div',
+	        { className: 'container' },
+	        _react2.default.createElement(
+	            'div',
+	            null,
+	            'PROMPT PLACEHOLDER'
+	        ),
+	        _react2.default.createElement(
+	            'div',
+	            { className: 'row' },
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'col-md-12' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'well well-sm' },
+	                    _react2.default.createElement(
+	                        'form',
+	                        { className: 'form-horizontal' },
+	                        _react2.default.createElement(
+	                            'fieldset',
+	                            null,
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'form-group' },
+	                                _react2.default.createElement(
+	                                    'span',
+	                                    { className: 'col-md-1 col-md-offset-2 text-center' },
+	                                    _react2.default.createElement('i', { className: 'fa fa-pencil-square-o bigicon' })
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-md-12' },
+	                                    _react2.default.createElement('textarea', { className: 'form-control', id: 'message', name: 'message', placeholder: 'Write here', rows: '7' })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'form-group' },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-md-12 text-center' },
+	                                    _react2.default.createElement(
+	                                        'button',
+	                                        { type: 'submit', className: 'btn btn-primary btn-lg' },
+	                                        'Submit'
+	                                    )
+	                                )
+	                            )
+	                        )
+	                    )
+	                )
+	            )
+	        )
+	    );
+	};
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(178);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }
 /******/ ]);
