@@ -19,7 +19,6 @@ Reply.belongsTo(Prompt); //A reply gets one prompt
 Reply.belongsTo(Student); //A reply is from one Student
 Prompt.belongsTo(Category); //A Prompt falls under one category
 
-Prompt.belongsTo(Course);
 
 //Teachers to courses
 Teacher.hasMany(Course);
@@ -39,7 +38,11 @@ Teacher.belongsToMany(Student, {through: 'TeacherStudents'});
 Student.belongsToMany(Teacher, {through: 'TeacherStudents'});
 
 
-Course.belongsToMany(Prompt, {through: 'CoursePrompts'});
+//Course.belongsToMany(Prompt, {through: 'CoursePrompts'});
+
+Course.hasMany(Prompt);
+Prompt.belongsTo(Course);
+
 
 
 

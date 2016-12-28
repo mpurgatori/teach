@@ -10,7 +10,10 @@ router.get('/', function (req, res, next) {
 
 router.post('/', function(req, res, next){
   return Student.create(req.body)
-  .then(student => res.json(student))
+  .then(student => {
+    res.cookie('studentId', student.id)
+    res.json(student)
+  })
   .catch(next);
 })
 

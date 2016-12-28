@@ -2,10 +2,13 @@ import React from 'react';
 import {Link} from 'react-router';
 
 export default function (props) {
-
+console.log('This is props from prompts:',props);
 return (
     <div className = "container" >
-    <div>PROMPT PLACEHOLDER</div>
+      { props.prompts.map(prompt => {
+        return (
+          <div key={prompt.id}>
+    <div>{prompt.content}</div>
     <div className="row">
       <div className="col-md-12">
           <div className="well well-sm">
@@ -29,6 +32,10 @@ return (
           </div>
       </div>
   </div>
+</div>
+)
+})
+}
   </div>
   )
 }

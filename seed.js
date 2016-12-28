@@ -262,20 +262,20 @@ db.sync({
             })
     })
     //Fills out prompt courses
-    .then(function() {
-        return Prompt.findAll()
-    })
-    .then(function(promptMap) {
-        return Course.findAll()
-            .then(function(courseMap) {
-                return Promise.all([
-                    promptMap[0].setCourse(courseMap[0]),
-                    promptMap[1].setCourse(courseMap[1]),
-                    promptMap[2].setCourse(courseMap[2]),
-                    promptMap[3].setCourse(courseMap[2])
-                ])
-            })
-    })
+    // .then(function() {
+    //     return Prompt.findAll()
+    // })
+    // .then(function(promptMap) {
+    //     return Course.findAll()
+    //         .then(function(courseMap) {
+    //             return Promise.all([
+    //                 promptMap[0].setCourse(courseMap[0]),
+    //                 promptMap[1].setCourse(courseMap[1]),
+    //                 promptMap[2].setCourse(courseMap[2]),
+    //                 promptMap[3].setCourse(courseMap[2])
+    //             ])
+    //         })
+    // })
     //
     .then(function() {
         return Promise.all([

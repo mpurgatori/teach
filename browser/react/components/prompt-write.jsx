@@ -2,7 +2,6 @@ import React from 'react';
 import {Link} from 'react-router';
 
 export default function (props) {
-console.log('THIS IS THE PROPS',props);
         return (
         <div className = "container" >
           <div className="form-group">

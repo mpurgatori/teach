@@ -13,7 +13,7 @@ export const receivePrompts = function (prompts) {
     return dispatch => {
       axios.get(`/api/prompts`)
         .then(response => {
-          dispatch(receiveCategories(response.data));
+          dispatch(receivePrompts(response.data));
         });
     };
   };
