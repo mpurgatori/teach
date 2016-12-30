@@ -42,7 +42,7 @@ class Signup extends Component {
     return (
       <div className="row">
         <div className="col-md-4 col-md-offset-4">
-          <h1>Signup</h1>
+          <h1>Student Signup</h1>
           <form onSubmit={this.createUser}>
             <div className="form-group">
               <label htmlFor="first">First name</label>

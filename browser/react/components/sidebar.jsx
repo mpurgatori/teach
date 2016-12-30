@@ -13,16 +13,28 @@ render(){
                 </h1>
             </li>
             <li>
-              <Link to="/login">LOGIN</Link>
+              <Link to="/login">STUDENT LOGIN</Link>
             </li>
             <li>
-              <Link to="/signup">SIGN UP</Link>
+              <Link to="/loginteach">TEACHER LOGIN</Link>
+            </li>
+            <li>
+              <Link to="/signup">STUDENT SIGN UP</Link>
             </li>
             <li>
               <Link to="/replywrite">WRITE</Link>
             </li>
             <li>
+              <Link to="/view">VIEW FEEDBACK</Link>
+            </li>
+            <li>
               <Link to="/promptwrite">PROMPT CREATE</Link>
+            </li>
+            <li>
+              <Link to="/feedback">GIVE FEEDBACK</Link>
+            </li>
+            <li>
+              <Link to="/enroll">ENROLL STUDENT</Link>
             </li>
         </ul>
       </div>

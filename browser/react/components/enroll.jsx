@@ -24,7 +24,6 @@ export default function (props) {
        })
      }
       </select>
-
     </div>
           <div className="row">
             <div className="col-md-12">
@@ -35,9 +34,6 @@ export default function (props) {
                                 <span className="col-md-1 col-md-offset-2 text-center">
                                     <i className="fa fa-pencil-square-o bigicon"></i>
                                 </span>
-                                <div className="col-md-12">
-                                    <textarea className="form-control" id="message" name="message" placeholder="Write here" rows="7"></textarea>
-                                </div>
                             </div>
                             <div className="form-group">
                                 <div className="col-md-12 text-center">

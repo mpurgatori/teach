@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { browserHistory } from 'react-router';
 
 export default class extends Component {
   constructor(props) {
@@ -26,12 +25,11 @@ export default class extends Component {
 
   login(e) {
     e.preventDefault();
-    axios.post('/api/sessions', {
+    axios.post('/api/sessions/teach', {
       email: this.state.email,
       password: this.state.password
     })
     .then(res => console.log(res.data))
-    .then(()=> browserHistory.push('/'));
   }
 
   render() {
@@ -39,7 +37,7 @@ export default class extends Component {
       <div className="row">
         <div className="col-md-4 col-md-offset-4">
           <form onSubmit={this.login}>
-            <h1>Student Login</h1>
+            <h1>Teacher Login</h1>
             <div className="form-group">
               <label htmlFor="exampleInputEmail1">Email address</label>
               <input type="email" name="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" value={this.state.email} onChange={this.handleChange} />

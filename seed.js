@@ -36,28 +36,28 @@ let data = {
     },{
         content: "Do something funny....now!."
     }],
-    reply: [{
-        content: "The dog jumped.",
-        feedback: "Good use of verb."
-    }, {
-        content: "Rummy is a dog.",
-        feedback: "Excellent proper noun use."
-    }, {
-        content: "Rummy stood handsomely.",
-        feedback: "Try harder next time."
-    }, {
-        content: "Cats are terrible.",
-        feedback: "Just awful"
-    }, {
-        content: "I once ate a racoon.",
-        feedback: "You're killing my buzz."
-    }, {
-        content: "Someone help me finish this thing.",
-        feedback: "get back to work."
-    }, {
-        content: "I love rummys portrait.",
-        feedback: "Piss off!"
-    }, ],
+    // reply: [{
+    //     content: "The dog jumped.",
+    //     feedback: "Good use of verb."
+    // }, {
+    //     content: "Rummy is a dog.",
+    //     feedback: "Excellent proper noun use."
+    // }, {
+    //     content: "Rummy stood handsomely.",
+    //     feedback: "Try harder next time."
+    // }, {
+    //     content: "Cats are terrible.",
+    //     feedback: "Just awful"
+    // }, {
+    //     content: "I once ate a racoon.",
+    //     feedback: "You're killing my buzz."
+    // }, {
+    //     content: "Someone help me finish this thing.",
+    //     feedback: "get back to work."
+    // }, {
+    //     content: "I love rummys portrait.",
+    //     feedback: "Piss off!"
+    // }, ],
     student: [{
         first: "Fred",
         last: "Jones",
@@ -210,41 +210,41 @@ db.sync({
         return course.addStudent(student);
     })
     //fill out reply prompts
-    .then(function() {
-        return Reply.findAll()
-    })
-    .then(function(replyMap) {
-        return Prompt.findAll()
-            .then(function(promptMap) {
-                return Promise.all([
-                    replyMap[0].setPrompt(promptMap[0]),
-                    replyMap[1].setPrompt(promptMap[0]),
-                    replyMap[2].setPrompt(promptMap[1]),
-                    replyMap[3].setPrompt(promptMap[1]),
-                    replyMap[4].setPrompt(promptMap[2]),
-                    replyMap[5].setPrompt(promptMap[2]),
-                    replyMap[6].setPrompt(promptMap[2]),
-                ])
-            })
-    })
+    // .then(function() {
+    //     return Reply.findAll()
+    // })
+    // .then(function(replyMap) {
+    //     return Prompt.findAll()
+    //         .then(function(promptMap) {
+    //             return Promise.all([
+    //                 replyMap[0].setPrompt(promptMap[0]),
+    //                 replyMap[1].setPrompt(promptMap[0]),
+    //                 replyMap[2].setPrompt(promptMap[1]),
+    //                 replyMap[3].setPrompt(promptMap[1]),
+    //                 replyMap[4].setPrompt(promptMap[2]),
+    //                 replyMap[5].setPrompt(promptMap[2]),
+    //                 replyMap[6].setPrompt(promptMap[2]),
+    //             ])
+    //         })
+    // })
     //fill out student prompts
-    .then(function() {
-        return Reply.findAll()
-    })
-    .then(function(replyMap) {
-        return Student.findAll()
-            .then(function(studentMap) {
-                return Promise.all([
-                    replyMap[0].setStudent(studentMap[0]),
-                    replyMap[1].setStudent(studentMap[0]),
-                    replyMap[2].setStudent(studentMap[0]),
-                    replyMap[3].setStudent(studentMap[1]),
-                    replyMap[4].setStudent(studentMap[2]),
-                    replyMap[5].setStudent(studentMap[1]),
-                    replyMap[6].setStudent(studentMap[2]),
-                ])
-            })
-    })
+    // .then(function() {
+    //     return Reply.findAll()
+    // })
+    // .then(function(replyMap) {
+    //     return Student.findAll()
+    //         .then(function(studentMap) {
+    //             return Promise.all([
+    //                 replyMap[0].setStudent(studentMap[0]),
+    //                 replyMap[1].setStudent(studentMap[0]),
+    //                 replyMap[2].setStudent(studentMap[0]),
+    //                 replyMap[3].setStudent(studentMap[1]),
+    //                 replyMap[4].setStudent(studentMap[2]),
+    //                 replyMap[5].setStudent(studentMap[1]),
+    //                 replyMap[6].setStudent(studentMap[2]),
+    //             ])
+    //         })
+    // })
     //Fils out Prompt Categories
     .then(function() {
         return Prompt.findAll()

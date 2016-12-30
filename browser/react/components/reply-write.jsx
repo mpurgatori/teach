@@ -1,41 +1,12 @@
 import React from 'react';
 import {Link} from 'react-router';
+import InsidePrompt from '../containers/inside-container.jsx';
 
-export default function (props) {
-console.log('This is props from prompts:',props);
-return (
-    <div className = "container" >
-      { props.prompts.map(prompt => {
-        return (
-          <div key={prompt.id}>
-    <div>{prompt.content}</div>
-    <div className="row">
-      <div className="col-md-12">
-          <div className="well well-sm">
-              <form className="form-horizontal">
-                  <fieldset>
-                      <div className="form-group">
-                          <span className="col-md-1 col-md-offset-2 text-center">
-                              <i className="fa fa-pencil-square-o bigicon"></i>
-                          </span>
-                          <div className="col-md-12">
-                              <textarea className="form-control" id="message" name="message" placeholder="Write here" rows="7"></textarea>
-                          </div>
-                      </div>
-                      <div className="form-group">
-                          <div className="col-md-12 text-center">
-                              <button type="submit" className="btn btn-primary btn-lg">Submit</button>
-                          </div>
-                      </div>
-                  </fieldset>
-              </form>
-          </div>
-      </div>
-  </div>
-</div>
-)
-})
-}
-  </div>
+export default function(props) {
+
+  return (
+      <div className = "container" >
+        { props.prompts.filter(prompt => !prompt.replies.length).map(prompt => <InsidePrompt key={prompt.id} prompt={prompt} />) }
+    </div>
   )
 }

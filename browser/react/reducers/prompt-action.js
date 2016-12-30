@@ -17,3 +17,11 @@ export const receivePrompts = function (prompts) {
         });
     };
   };
+
+
+// export const createPrompt = () => {
+//   return dispatch => {
+//     axios.post(`/api/prompts`)
+//     .then()
+//   }
+// }
