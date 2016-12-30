@@ -8,6 +8,10 @@ const Reply  = require('../models/replies');
 
 
 
+router.post('/', function(req,res,next){
+  return Prompt.create(req.body)
+  .catch(next)
+})
 
 
 router.get('/', function (req, res, next) {

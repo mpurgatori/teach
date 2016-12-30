@@ -31124,6 +31124,10 @@
 	
 	var _reactRouter = __webpack_require__(178);
 	
+	var _axios = __webpack_require__(233);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -31167,17 +31171,25 @@
 	    key: 'promptSubmit',
 	    value: function promptSubmit(e) {
 	      e.preventDefault();
+	      _axios2.default.post('/api/prompts', {
+	        content: this.state.content,
+	        categoryId: this.state.categoryId,
+	        courseId: this.state.courseId
+	      }).then(function (res) {
+	        return console.log(res.data);
+	      }).then(function () {
+	        return browserHistory.push('/promptwrite');
+	      });
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      console.log(';) PROPS FOR PROMPT WRITE:', this.props);
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'container' },
 	        _react2.default.createElement(
 	          'form',
-	          { className: 'form-horizontal', onSubmit: this.replySubmit },
+	          { className: 'form-horizontal', onSubmit: this.promptSubmit },
 	          _react2.default.createElement(
 	            'fieldset',
 	            null,
@@ -31191,7 +31203,7 @@
 	              ),
 	              _react2.default.createElement(
 	                'select',
-	                { className: 'form-control', id: 'sel1', name: 'courseId', value: this.state.courseId, onChange: this.handleChange },
+	                { className: 'form-control', id: 'sel1', name: 'courseId', onChange: this.handleChange },
 	                _react2.default.createElement(
 	                  'option',
 	                  null,
@@ -31200,7 +31212,7 @@
 	                this.props.courses.map(function (course) {
 	                  return _react2.default.createElement(
 	                    'option',
-	                    { key: course.name },
+	                    { key: course.name, value: course.id },
 	                    course.name
 	                  );
 	                })
@@ -31212,7 +31224,7 @@
 	              ),
 	              _react2.default.createElement(
 	                'select',
-	                { className: 'form-control', id: 'sel2', name: 'categoryId', value: this.state.categoriesId, onChange: this.handleChange },
+	                { className: 'form-control', id: 'sel2', name: 'categoryId', onChange: this.handleChange },
 	                _react2.default.createElement(
 	                  'option',
 	                  null,
@@ -31221,7 +31233,7 @@
 	                this.props.categories.map(function (categories) {
 	                  return _react2.default.createElement(
 	                    'option',
-	                    { key: categories.content },
+	                    { key: categories.content, value: categories.id },
 	                    categories.content
 	                  );
 	                })

@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
+import axios from 'axios';
 
 export default class extends React.Component {
   constructor(props){
@@ -27,22 +28,28 @@ export default class extends React.Component {
 
   promptSubmit(e) {
     e.preventDefault();
-
+    axios.post('/api/prompts', {
+      content: this.state.content,
+      categoryId: this.state.categoryId,
+      courseId: this.state.courseId
+    })
+    .then(res => console.log(res.data))
+    .then(()=> browserHistory.push('/promptwrite'));
   }
 
-  render(){
-    console.log(';) PROPS FOR PROMPT WRITE:', this.props);
+
+  render() {
         return (
         <div className = "container" >
-          <form className="form-horizontal" onSubmit={this.replySubmit}>
+          <form className="form-horizontal" onSubmit={this.promptSubmit}>
             <fieldset>
           <div className="form-group">
       <label htmlFor="sel1">Select Course:</label>
-      <select className="form-control" id="sel1" name='courseId' value={this.state.courseId} onChange={this.handleChange}>
+      <select className="form-control" id="sel1" name='courseId' onChange={this.handleChange}>
         <option>Select Course</option>
         { this.props.courses.map(course => {
           return (
-            <option key={course.name} >{course.name}</option>
+            <option key={course.name} value={course.id}>{course.name}</option>
 
          )
        })
@@ -50,11 +57,11 @@ export default class extends React.Component {
        </select>
 
       <label htmlFor="sel2">Select Category:</label>
-      <select className="form-control" id="sel2" name='categoryId' value={this.state.categoriesId} onChange={this.handleChange}>
+      <select className="form-control" id="sel2" name='categoryId' onChange={this.handleChange}>
         <option>Select Category</option>
         { this.props.categories.map(categories => {
           return (
-            <option key={categories.content}>{categories.content}</option>
+            <option key={categories.content} value={categories.id}>{categories.content}</option>
 
          )
        })
