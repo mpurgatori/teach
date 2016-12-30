@@ -27,6 +27,5 @@ export default function(state = initialState, action){
     default:
       return state;
   }
-  console.log('THIS IS NEWSTATE FROM REPLY REDUCER', newState);
   return newState;
 }

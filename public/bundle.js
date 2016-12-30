@@ -86,23 +86,23 @@
 	
 	var _signup2 = _interopRequireDefault(_signup);
 	
-	var _replyDisplay = __webpack_require__(305);
+	var _replyDisplayContainer = __webpack_require__(305);
 	
-	var _replyDisplay2 = _interopRequireDefault(_replyDisplay);
+	var _replyDisplayContainer2 = _interopRequireDefault(_replyDisplayContainer);
 	
-	var _promptContainer = __webpack_require__(306);
+	var _promptContainer = __webpack_require__(307);
 	
 	var _promptContainer2 = _interopRequireDefault(_promptContainer);
 	
-	var _replyContainer = __webpack_require__(308);
+	var _replyContainer = __webpack_require__(309);
 	
 	var _replyContainer2 = _interopRequireDefault(_replyContainer);
 	
-	var _giveFeedback = __webpack_require__(312);
+	var _giveFeedback = __webpack_require__(313);
 	
 	var _giveFeedback2 = _interopRequireDefault(_giveFeedback);
 	
-	var _enroll = __webpack_require__(313);
+	var _enroll = __webpack_require__(314);
 	
 	var _enroll2 = _interopRequireDefault(_enroll);
 	
@@ -158,7 +158,7 @@
 							_react2.default.createElement(_reactRouter.Route, { path: '/login', component: _login2.default }),
 							_react2.default.createElement(_reactRouter.Route, { path: '/loginteach', component: _loginTeacher2.default }),
 							_react2.default.createElement(_reactRouter.Route, { path: '/signup', component: _signup2.default }),
-							_react2.default.createElement(_reactRouter.Route, { path: '/view', component: _replyDisplay2.default, onEnter: onViewEnter }),
+							_react2.default.createElement(_reactRouter.Route, { path: '/view', component: _replyDisplayContainer2.default, onEnter: onViewEnter }),
 							_react2.default.createElement(_reactRouter.Route, { path: '/replywrite', component: _replyContainer2.default, onEnter: onReplyEnter }),
 							_react2.default.createElement(_reactRouter.Route, { path: '/promptwrite', component: _promptContainer2.default, onEnter: onPromptEnter }),
 							_react2.default.createElement(_reactRouter.Route, { path: '/feedback', component: _giveFeedback2.default }),
@@ -29213,7 +29213,6 @@
 	    default:
 	      return state;
 	  }
-	  console.log('THIS IS NEWSTATE FROM REPLY REDUCER', newState);
 	  return newState;
 	};
 	
@@ -31006,22 +31005,51 @@
 	  value: true
 	});
 	
+	var _reactRedux = __webpack_require__(285);
+	
+	var _replyDisplay = __webpack_require__(306);
+	
+	var _replyDisplay2 = _interopRequireDefault(_replyDisplay);
+	
+	var _replyAction = __webpack_require__(283);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	  console.log('THIS IS STATE IN REPLY CONTAINER', state);
+	  return {
+	    replies: state.replies.allReplies
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+	  return {};
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_replyDisplay2.default);
+
+/***/ },
+/* 306 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
 	exports.default = function (props) {
-	  console.log('This is props from the REPLY VIEW CONTAINER:', props);
+	  console.log('This is props from the REPLY VIEW CONTAINER:', props.replies);
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'container' },
-	    'props.replies.map(reply=>',
-	    _react2.default.createElement(
-	      'div',
-	      { key: reply.id },
-	      _react2.default.createElement(
+	    props.replies.map(function (reply) {
+	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { key: reply.id },
 	        reply.content
-	      )
-	    ),
-	    ')'
+	      );
+	    })
 	  );
 	};
 	
@@ -31034,7 +31062,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
-/* 306 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31045,7 +31073,7 @@
 	
 	var _reactRedux = __webpack_require__(285);
 	
-	var _promptWrite = __webpack_require__(307);
+	var _promptWrite = __webpack_require__(308);
 	
 	var _promptWrite2 = _interopRequireDefault(_promptWrite);
 	
@@ -31069,7 +31097,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_promptWrite2.default);
 
 /***/ },
-/* 307 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31177,7 +31205,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
-/* 308 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31188,7 +31216,7 @@
 	
 	var _reactRedux = __webpack_require__(285);
 	
-	var _replyWrite = __webpack_require__(309);
+	var _replyWrite = __webpack_require__(310);
 	
 	var _replyWrite2 = _interopRequireDefault(_replyWrite);
 	
@@ -31210,7 +31238,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_replyWrite2.default);
 
 /***/ },
-/* 309 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31238,14 +31266,14 @@
 	
 	var _reactRouter = __webpack_require__(178);
 	
-	var _insideContainer = __webpack_require__(310);
+	var _insideContainer = __webpack_require__(311);
 	
 	var _insideContainer2 = _interopRequireDefault(_insideContainer);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
-/* 310 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31258,7 +31286,7 @@
 	
 	var _replyAction = __webpack_require__(283);
 	
-	var _insidePrompt = __webpack_require__(311);
+	var _insidePrompt = __webpack_require__(312);
 	
 	var _insidePrompt2 = _interopRequireDefault(_insidePrompt);
 	
@@ -31279,7 +31307,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_insidePrompt2.default);
 
 /***/ },
-/* 311 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31403,7 +31431,7 @@
 	exports.default = _class;
 
 /***/ },
-/* 312 */
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31481,7 +31509,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
-/* 313 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
