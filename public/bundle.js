@@ -28959,7 +28959,7 @@
 	    default:
 	      return state;
 	  }
-	  console.log('THIS IS THE NEWSTATE:', newState);
+	
 	  return newState;
 	};
 	
@@ -29047,7 +29047,6 @@
 	    default:
 	      return state;
 	  }
-	  console.log('CAT REDUCER:', newState);
 	  return newState;
 	};
 	
@@ -31047,7 +31046,18 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { key: reply.id },
-	        reply.content
+	        _react2.default.createElement(
+	          'h3',
+	          null,
+	          'Q. ',
+	          reply.prompt.content
+	        ),
+	        _react2.default.createElement(
+	          'h3',
+	          null,
+	          'A. ',
+	          reply.content
+	        )
 	      );
 	    })
 	  );
@@ -31103,98 +31113,10 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 	
-	exports.default = function (props) {
-	    return _react2.default.createElement(
-	        'div',
-	        { className: 'container' },
-	        _react2.default.createElement(
-	            'div',
-	            { className: 'form-group' },
-	            _react2.default.createElement(
-	                'label',
-	                { htmlFor: 'sel1' },
-	                'Select Course:'
-	            ),
-	            _react2.default.createElement(
-	                'select',
-	                { className: 'form-control', id: 'sel1' },
-	                props.courses.map(function (course) {
-	                    return _react2.default.createElement(
-	                        'option',
-	                        { key: course.name },
-	                        course.name
-	                    );
-	                })
-	            ),
-	            _react2.default.createElement(
-	                'label',
-	                { htmlFor: 'sel2' },
-	                'Select Category:'
-	            ),
-	            _react2.default.createElement(
-	                'select',
-	                { className: 'form-control', id: 'sel2' },
-	                props.categories.map(function (categories) {
-	                    return _react2.default.createElement(
-	                        'option',
-	                        { key: categories.content },
-	                        categories.content
-	                    );
-	                })
-	            )
-	        ),
-	        _react2.default.createElement(
-	            'div',
-	            { className: 'row' },
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'col-md-12' },
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'well well-sm' },
-	                    _react2.default.createElement(
-	                        'form',
-	                        { className: 'form-horizontal' },
-	                        _react2.default.createElement(
-	                            'fieldset',
-	                            null,
-	                            _react2.default.createElement(
-	                                'div',
-	                                { className: 'form-group' },
-	                                _react2.default.createElement(
-	                                    'span',
-	                                    { className: 'col-md-1 col-md-offset-2 text-center' },
-	                                    _react2.default.createElement('i', { className: 'fa fa-pencil-square-o bigicon' })
-	                                ),
-	                                _react2.default.createElement(
-	                                    'div',
-	                                    { className: 'col-md-12' },
-	                                    _react2.default.createElement('textarea', { className: 'form-control', id: 'message', name: 'message', placeholder: 'Write here', rows: '7' })
-	                                )
-	                            ),
-	                            _react2.default.createElement(
-	                                'div',
-	                                { className: 'form-group' },
-	                                _react2.default.createElement(
-	                                    'div',
-	                                    { className: 'col-md-12 text-center' },
-	                                    _react2.default.createElement(
-	                                        'button',
-	                                        { type: 'submit', className: 'btn btn-primary btn-lg' },
-	                                        'Submit'
-	                                    )
-	                                )
-	                            )
-	                        )
-	                    )
-	                )
-	            )
-	        )
-	    );
-	};
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(1);
 	
@@ -31203,6 +31125,157 @@
 	var _reactRouter = __webpack_require__(178);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var _class = function (_React$Component) {
+	  _inherits(_class, _React$Component);
+	
+	  function _class(props) {
+	    _classCallCheck(this, _class);
+	
+	    var _this = _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this, props));
+	
+	    _this.state = {
+	      content: '',
+	      categoryId: '',
+	      courseId: '',
+	      dirty: false
+	    };
+	    _this.handleChange = _this.handleChange.bind(_this);
+	    _this.promptSubmit = _this.promptSubmit.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(_class, [{
+	    key: 'handleChange',
+	    value: function handleChange(e) {
+	      var _setState;
+	
+	      var value = e.target.value;
+	      var name = e.target.name;
+	
+	      this.setState((_setState = {}, _defineProperty(_setState, name, value), _defineProperty(_setState, 'dirty', true), _setState));
+	    }
+	  }, {
+	    key: 'promptSubmit',
+	    value: function promptSubmit(e) {
+	      e.preventDefault();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      console.log(';) PROPS FOR PROMPT WRITE:', this.props);
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'container' },
+	        _react2.default.createElement(
+	          'form',
+	          { className: 'form-horizontal', onSubmit: this.replySubmit },
+	          _react2.default.createElement(
+	            'fieldset',
+	            null,
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'form-group' },
+	              _react2.default.createElement(
+	                'label',
+	                { htmlFor: 'sel1' },
+	                'Select Course:'
+	              ),
+	              _react2.default.createElement(
+	                'select',
+	                { className: 'form-control', id: 'sel1', name: 'courseId', value: this.state.courseId, onChange: this.handleChange },
+	                _react2.default.createElement(
+	                  'option',
+	                  null,
+	                  'Select Course'
+	                ),
+	                this.props.courses.map(function (course) {
+	                  return _react2.default.createElement(
+	                    'option',
+	                    { key: course.name },
+	                    course.name
+	                  );
+	                })
+	              ),
+	              _react2.default.createElement(
+	                'label',
+	                { htmlFor: 'sel2' },
+	                'Select Category:'
+	              ),
+	              _react2.default.createElement(
+	                'select',
+	                { className: 'form-control', id: 'sel2', name: 'categoryId', value: this.state.categoriesId, onChange: this.handleChange },
+	                _react2.default.createElement(
+	                  'option',
+	                  null,
+	                  'Select Category'
+	                ),
+	                this.props.categories.map(function (categories) {
+	                  return _react2.default.createElement(
+	                    'option',
+	                    { key: categories.content },
+	                    categories.content
+	                  );
+	                })
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'row' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'col-md-12' },
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'well well-sm' },
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'form-group' },
+	                    _react2.default.createElement(
+	                      'span',
+	                      { className: 'col-md-1 col-md-offset-2 text-center' },
+	                      _react2.default.createElement('i', { className: 'fa fa-pencil-square-o bigicon' })
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'col-md-12' },
+	                      _react2.default.createElement('textarea', { className: 'form-control', id: 'message', name: 'content', value: this.state.content, onChange: this.handleChange, placeholder: 'Write here', rows: '7' })
+	                    )
+	                  ),
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'form-group' },
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'col-md-12 text-center' },
+	                      _react2.default.createElement(
+	                        'button',
+	                        { type: 'submit', className: 'btn btn-primary btn-lg' },
+	                        'Submit'
+	                      )
+	                    )
+	                  )
+	                )
+	              )
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return _class;
+	}(_react2.default.Component);
+	
+	exports.default = _class;
 
 /***/ },
 /* 309 */

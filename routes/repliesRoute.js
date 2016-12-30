@@ -2,10 +2,19 @@ const express = require('express');
 const router = express.Router();
 
 const Reply = require('../models/replies');
+const Prompt = require('../models/prompts');
 
 
 router.get('/', function (req, res, next) {
-  return Reply.findAll()
+  console.log('SESSION FOR REPLY',req.session);
+  return Reply.findAll({
+    where: {
+      studentId: req.session.studentId
+    },
+    include: [{
+      model: Prompt
+    }]
+  })
   .then(replies => res.send(replies))
   .catch(next)
 });

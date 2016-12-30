@@ -21,6 +21,6 @@ export default function(state = initialState, action){
     default:
       return state;
   }
-  console.log('THIS IS THE NEWSTATE:',newState);
+
   return newState;
 }
