@@ -16,15 +16,15 @@ import Signup from '../components/signup.jsx'
 import View from './reply-display-container.jsx'
 import promptWrite from './prompt-container.jsx'
 import replyWrite from './reply-container.jsx'
-import giveFeedback from '../components/give-feedback.jsx'
-import enroll from '../components/enroll.jsx'
+import giveFeedback from './give-container.jsx'
+
 
 
 
 import { receiveCourses, loadCourses } from '../reducers/courses-action';
 import { receiveCategories, loadCategories } from '../reducers/categories-action';
 import { receivePrompts, loadPrompts } from '../reducers/prompt-action';
-import { loadReply, loadReplies } from '../reducers/reply-action';
+import { loadReply, loadReplies, loadRepliesTeach } from '../reducers/reply-action';
 
 
 const onPromptEnter = function (){
@@ -39,6 +39,10 @@ const onReplyEnter = function (){
 
 const onViewEnter = function(){
   store.dispatch(loadReplies());
+}
+
+const onTeachReply = function(){
+  store.dispatch(loadRepliesTeach())
 }
 
 const loginCheck = function (){
@@ -72,8 +76,7 @@ ReactDOM.render(
     <Route path="/view" component={View} onEnter={onViewEnter}/>
 		<Route path="/replywrite" component={replyWrite} onEnter={onReplyEnter}/>
 		<Route path="/promptwrite" component={promptWrite} onEnter={onPromptEnter}/>
-    <Route path="/feedback" component={giveFeedback}/>
-    <Route path="/enroll" component={enroll}/>
+    <Route path="/feedback" component={giveFeedback} onEnter={onTeachReply}/>
 	</Route>
 	</Router>
 </Provider>, document.getElementById('app')

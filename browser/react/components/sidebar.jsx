@@ -33,9 +33,6 @@ render(){
             <li>
               <Link to="/feedback">GIVE FEEDBACK</Link>
             </li>
-            <li>
-              <Link to="/enroll">ENROLL STUDENT</Link>
-            </li>
         </ul>
       </div>
     )

@@ -1,5 +1,5 @@
-import { createReply, loadReplies, loadReply } from './reply-action';
-import { ADD_REPLY, LOAD_REPLIES } from './constants';
+import { createReply, loadReplies, loadReply, loadReplyTeach, loadRepliesTeach } from './reply-action';
+import { ADD_REPLY, LOAD_REPLIES, LOAD_TEACH_REPS } from './constants';
 
 
 
@@ -24,8 +24,14 @@ export default function(state = initialState, action){
 
       break;
 
+    case LOAD_TEACH_REPS:
+      newState.allReplies = action.reps;
+
+      break;
+
     default:
       return state;
   }
+  console.log('THIS IS THE NEWSTATE COMING OUT OF REPLY REDUCER:', newState);
   return newState;
 }

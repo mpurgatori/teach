@@ -37,6 +37,7 @@ router.post('/teach', function (req, res, next) {
       throw err;
     }
     req.session.teacherId = teacher.id;
+    console.log('TEACHERID:',req.session.teacherId);
     res.json(teacher);
   })
   .catch(next)

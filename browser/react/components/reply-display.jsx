@@ -8,8 +8,10 @@ return (
       { props.replies.map( reply=>{
         return (
           <div key={reply.id}>
-          <h3>Q. {reply.prompt.content}</h3>
-          <h3>A. {reply.content}</h3>
+          <h3>Q: {reply.prompt.content}</h3>
+          <h3>A: {reply.content}</h3>
+          <h3>Feedback: {reply.feedback}</h3>
+          <br/>
           </div>
           )
       }) }

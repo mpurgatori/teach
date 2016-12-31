@@ -98,13 +98,9 @@
 	
 	var _replyContainer2 = _interopRequireDefault(_replyContainer);
 	
-	var _giveFeedback = __webpack_require__(313);
+	var _giveContainer = __webpack_require__(313);
 	
-	var _giveFeedback2 = _interopRequireDefault(_giveFeedback);
-	
-	var _enroll = __webpack_require__(314);
-	
-	var _enroll2 = _interopRequireDefault(_enroll);
+	var _giveContainer2 = _interopRequireDefault(_giveContainer);
 	
 	var _coursesAction = __webpack_require__(276);
 	
@@ -127,6 +123,10 @@
 	
 	var onViewEnter = function onViewEnter() {
 			_store2.default.dispatch((0, _replyAction.loadReplies)());
+	};
+	
+	var onTeachReply = function onTeachReply() {
+			_store2.default.dispatch((0, _replyAction.loadRepliesTeach)());
 	};
 	
 	var loginCheck = function loginCheck() {};
@@ -161,8 +161,7 @@
 							_react2.default.createElement(_reactRouter.Route, { path: '/view', component: _replyDisplayContainer2.default, onEnter: onViewEnter }),
 							_react2.default.createElement(_reactRouter.Route, { path: '/replywrite', component: _replyContainer2.default, onEnter: onReplyEnter }),
 							_react2.default.createElement(_reactRouter.Route, { path: '/promptwrite', component: _promptContainer2.default, onEnter: onPromptEnter }),
-							_react2.default.createElement(_reactRouter.Route, { path: '/feedback', component: _giveFeedback2.default }),
-							_react2.default.createElement(_reactRouter.Route, { path: '/enroll', component: _enroll2.default })
+							_react2.default.createElement(_reactRouter.Route, { path: '/feedback', component: _giveContainer2.default, onEnter: onTeachReply })
 					)
 			)
 	), document.getElementById('app'));
@@ -29020,6 +29019,8 @@
 	
 	var LOAD_REPLIES = exports.LOAD_REPLIES = 'LOAD_REPLIES';
 	var ADD_REPLY = exports.ADD_REPLY = 'ADD_REPLY';
+	
+	var LOAD_TEACH_REPS = exports.LOAD_TEACH_REPS = 'LOAD_TEACH_REPS';
 
 /***/ },
 /* 278 */
@@ -29209,9 +29210,15 @@
 	
 	      break;
 	
+	    case _constants.LOAD_TEACH_REPS:
+	      newState.allReplies = action.reps;
+	
+	      break;
+	
 	    default:
 	      return state;
 	  }
+	  console.log('THIS IS THE NEWSTATE COMING OUT OF REPLY REDUCER:', newState);
 	  return newState;
 	};
 	
@@ -29234,7 +29241,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.loadReplies = exports.loadReply = exports.createReply = exports.addReply = undefined;
+	exports.updateReply = exports.loadRepliesTeach = exports.loadReplyTeach = exports.loadReplies = exports.loadReply = exports.createReply = exports.addReply = undefined;
 	
 	var _constants = __webpack_require__(277);
 	
@@ -29273,6 +29280,30 @@
 	  return function (dispatch) {
 	    _axios2.default.get('/api/replies').then(function (response) {
 	      dispatch(loadReply(response.data));
+	    });
+	  };
+	};
+	
+	var loadReplyTeach = exports.loadReplyTeach = function loadReplyTeach(reps) {
+	  return {
+	    type: _constants.LOAD_TEACH_REPS,
+	    reps: reps
+	  };
+	};
+	
+	var loadRepliesTeach = exports.loadRepliesTeach = function loadRepliesTeach() {
+	  return function (dispatch) {
+	    _axios2.default.get('/api/replies/teacher').then(function (response) {
+	      dispatch(loadReplyTeach(response.data));
+	    });
+	  };
+	};
+	
+	var updateReply = exports.updateReply = function updateReply(replyId, feedback) {
+	  return function (dispatch) {
+	    _axios2.default.put('/api/replies', {
+	      replyId: replyId,
+	      feedback: feedback
 	    });
 	  };
 	};
@@ -30570,15 +30601,6 @@
 	              { to: '/feedback' },
 	              'GIVE FEEDBACK'
 	            )
-	          ),
-	          _react2.default.createElement(
-	            'li',
-	            null,
-	            _react2.default.createElement(
-	              _reactRouter.Link,
-	              { to: '/enroll' },
-	              'ENROLL STUDENT'
-	            )
 	          )
 	        )
 	      );
@@ -31049,15 +31071,22 @@
 	        _react2.default.createElement(
 	          'h3',
 	          null,
-	          'Q. ',
+	          'Q: ',
 	          reply.prompt.content
 	        ),
 	        _react2.default.createElement(
 	          'h3',
 	          null,
-	          'A. ',
+	          'A: ',
 	          reply.content
-	        )
+	        ),
+	        _react2.default.createElement(
+	          'h3',
+	          null,
+	          'Feedback: ',
+	          reply.feedback
+	        ),
+	        _react2.default.createElement('br', null)
 	      );
 	    })
 	  );
@@ -31525,73 +31554,28 @@
 	    value: true
 	});
 	
-	exports.default = function (props) {
-	    console.log('This is props from prompts:', props);
-	    return _react2.default.createElement(
-	        'div',
-	        { className: 'container' },
-	        _react2.default.createElement(
-	            'div',
-	            null,
-	            'THIS IS WHERE A RESPONSE WILL RENDER'
-	        ),
-	        _react2.default.createElement(
-	            'div',
-	            { className: 'row' },
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'col-md-12' },
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'well well-sm' },
-	                    _react2.default.createElement(
-	                        'form',
-	                        { className: 'form-horizontal' },
-	                        _react2.default.createElement(
-	                            'fieldset',
-	                            null,
-	                            _react2.default.createElement(
-	                                'div',
-	                                { className: 'form-group' },
-	                                _react2.default.createElement(
-	                                    'span',
-	                                    { className: 'col-md-1 col-md-offset-2 text-center' },
-	                                    _react2.default.createElement('i', { className: 'fa fa-pencil-square-o bigicon' })
-	                                ),
-	                                _react2.default.createElement(
-	                                    'div',
-	                                    { className: 'col-md-12' },
-	                                    _react2.default.createElement('textarea', { className: 'form-control', id: 'message', name: 'message', placeholder: 'Write here', rows: '7' })
-	                                )
-	                            ),
-	                            _react2.default.createElement(
-	                                'div',
-	                                { className: 'form-group' },
-	                                _react2.default.createElement(
-	                                    'div',
-	                                    { className: 'col-md-12 text-center' },
-	                                    _react2.default.createElement(
-	                                        'button',
-	                                        { type: 'submit', className: 'btn btn-primary btn-lg' },
-	                                        'Submit'
-	                                    )
-	                                )
-	                            )
-	                        )
-	                    )
-	                )
-	            )
-	        )
-	    );
-	};
+	var _reactRedux = __webpack_require__(285);
 	
-	var _react = __webpack_require__(1);
+	var _giveFeedback = __webpack_require__(314);
 	
-	var _react2 = _interopRequireDefault(_react);
+	var _giveFeedback2 = _interopRequireDefault(_giveFeedback);
 	
-	var _reactRouter = __webpack_require__(178);
+	var _replyAction = __webpack_require__(283);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	    console.log('THIS IS THE STATE', state);
+	    return {
+	        replies: state.replies.allReplies
+	    };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+	    return {};
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_giveFeedback2.default);
 
 /***/ },
 /* 314 */
@@ -31600,92 +31584,20 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 	
 	exports.default = function (props) {
-	    return _react2.default.createElement(
-	        'div',
-	        { className: 'container' },
-	        _react2.default.createElement(
-	            'div',
-	            { className: 'form-group' },
-	            _react2.default.createElement(
-	                'label',
-	                { htmlFor: 'sel1' },
-	                'Select Course:'
-	            ),
-	            _react2.default.createElement(
-	                'select',
-	                { className: 'form-control', id: 'sel1' },
-	                props.courses.map(function (course) {
-	                    return _react2.default.createElement(
-	                        'option',
-	                        { key: course.name },
-	                        course.name
-	                    );
-	                })
-	            ),
-	            _react2.default.createElement(
-	                'label',
-	                { htmlFor: 'sel2' },
-	                'Select Category:'
-	            ),
-	            _react2.default.createElement(
-	                'select',
-	                { className: 'form-control', id: 'sel2' },
-	                props.categories.map(function (categories) {
-	                    return _react2.default.createElement(
-	                        'option',
-	                        { key: categories.content },
-	                        categories.content
-	                    );
-	                })
-	            )
-	        ),
-	        _react2.default.createElement(
-	            'div',
-	            { className: 'row' },
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'col-md-12' },
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'well well-sm' },
-	                    _react2.default.createElement(
-	                        'form',
-	                        { className: 'form-horizontal' },
-	                        _react2.default.createElement(
-	                            'fieldset',
-	                            null,
-	                            _react2.default.createElement(
-	                                'div',
-	                                { className: 'form-group' },
-	                                _react2.default.createElement(
-	                                    'span',
-	                                    { className: 'col-md-1 col-md-offset-2 text-center' },
-	                                    _react2.default.createElement('i', { className: 'fa fa-pencil-square-o bigicon' })
-	                                )
-	                            ),
-	                            _react2.default.createElement(
-	                                'div',
-	                                { className: 'form-group' },
-	                                _react2.default.createElement(
-	                                    'div',
-	                                    { className: 'col-md-12 text-center' },
-	                                    _react2.default.createElement(
-	                                        'button',
-	                                        { type: 'submit', className: 'btn btn-primary btn-lg' },
-	                                        'Submit'
-	                                    )
-	                                )
-	                            )
-	                        )
-	                    )
-	                )
-	            )
-	        )
-	    );
+	  console.log('PROPS COMING FROM GIVE FEEDBACK', props);
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'container' },
+	    props.replies.filter(function (reply) {
+	      return !reply.feedback;
+	    }).map(function (reply) {
+	      return _react2.default.createElement(_insideFeedback2.default, { key: reply.id, reply: reply });
+	    })
+	  );
 	};
 	
 	var _react = __webpack_require__(1);
@@ -31694,7 +31606,136 @@
 	
 	var _reactRouter = __webpack_require__(178);
 	
+	var _insideFeedback = __webpack_require__(315);
+	
+	var _insideFeedback2 = _interopRequireDefault(_insideFeedback);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ },
+/* 315 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var _class = function (_React$Component) {
+	  _inherits(_class, _React$Component);
+	
+	  function _class(props) {
+	    _classCallCheck(this, _class);
+	
+	    var _this = _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this, props));
+	
+	    _this.state = {
+	      feedback: '',
+	      dirty: false
+	    };
+	    _this.handleChange = _this.handleChange.bind(_this);
+	    _this.replySubmit = _this.replySubmit.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(_class, [{
+	    key: 'handleChange',
+	    value: function handleChange(e) {
+	      var value = e.target.value;
+	      this.setState({
+	        content: value,
+	        dirty: true
+	      });
+	    }
+	  }, {
+	    key: 'replySubmit',
+	    value: function replySubmit(e) {
+	      console.log('!^!^!^!^!^!^', this.props);
+	      e.preventDefault();
+	      this.props.updateReply(this.props.reply.id, this.state.feedback);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      console.log('THIS.PROPS FROM INSIDE FEEDBACK', this.props);
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          this.props.reply.content
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'col-md-12' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'well well-sm' },
+	              _react2.default.createElement(
+	                'form',
+	                { className: 'form-horizontal', onSubmit: this.replySubmit },
+	                _react2.default.createElement(
+	                  'fieldset',
+	                  null,
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'form-group' },
+	                    _react2.default.createElement(
+	                      'span',
+	                      { className: 'col-md-1 col-md-offset-2 text-center' },
+	                      _react2.default.createElement('i', { className: 'fa fa-pencil-square-o bigicon' })
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'col-md-12' },
+	                      _react2.default.createElement('textarea', { onChange: this.handleChange, className: 'form-control', id: 'message', name: 'message', placeholder: 'Write here', rows: '7' })
+	                    )
+	                  ),
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'form-group' },
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'col-md-12 text-center' },
+	                      _react2.default.createElement(
+	                        'button',
+	                        { type: 'submit', className: 'btn btn-primary btn-lg' },
+	                        'Submit'
+	                      )
+	                    )
+	                  )
+	                )
+	              )
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return _class;
+	}(_react2.default.Component);
+	
+	exports.default = _class;
 
 /***/ }
 /******/ ]);

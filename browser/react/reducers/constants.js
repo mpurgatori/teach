@@ -4,3 +4,5 @@ export const LOAD_PROMPTS = 'LOAD_PROMPTS';
 
 export const LOAD_REPLIES = 'LOAD_REPLIES';
 export const ADD_REPLY = 'ADD_REPLY';
+
+export const LOAD_TEACH_REPS = 'LOAD_TEACH_REPS';
