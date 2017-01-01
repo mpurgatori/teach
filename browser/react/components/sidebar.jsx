@@ -1,12 +1,28 @@
 import React from 'react';
 import { Link } from 'react-router';
+import axios from 'axios';
+
 
 export default class extends React.Component {
+
+constructor(props){
+  super(props)
+  this.logOut = this.logOut.bind(this);
+
+}
+
+logOut(){
+  axios.get('/api/sessions/logout')
+  .then(res=>console.log(res))
+}
 
 render(){
   return (
       <div id="sidebar-wrapper">
         <ul className="sidebar-nav">
+          <li>
+            <Link to="/" onClick={this.logOut}>logout</Link>
+          </li>
             <li className="sidebar-brand">
                 <h1>
                     Teach

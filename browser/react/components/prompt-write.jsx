@@ -13,6 +13,7 @@ export default class extends React.Component {
     }
     this.handleChange = this.handleChange.bind(this);
     this.promptSubmit = this.promptSubmit.bind(this);
+    this.formReset = this.formReset.bind(this);
   }
 
   handleChange(e) {
@@ -25,16 +26,26 @@ export default class extends React.Component {
     });
   }
 
+  // formReset(){
+  //   this.setState({
+  //     content: 'value',
+  //     dirty: false
+  //   });
+  //   target.courseId = 'Select Course'
+  // }
 
   promptSubmit(e) {
     e.preventDefault();
+    if (this.state.content === ''||this.state.categoryId === ''||this.state.courseId === ''){
+      return alert('Please fill out whole form');
+    }
     axios.post('/api/prompts', {
       content: this.state.content,
       categoryId: this.state.categoryId,
       courseId: this.state.courseId
     })
     .then(res => console.log(res.data))
-    .then(()=> browserHistory.push('/promptwrite'));
+    .then(()=> this.formReset());
   }
 
 

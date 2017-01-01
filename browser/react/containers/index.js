@@ -46,8 +46,14 @@ const onTeachReply = function(){
 }
 
 const loginCheck = function (){
-
+  axios.get('/api/sessions/check')
+  .then(function(theRole){
+    console.log(theRole);
+  })
 }
+
+
+
 // const onPromptEnter = function () {
 //   Promise.all([
 //     axios.get('/api/courses'),
@@ -69,7 +75,7 @@ const loginCheck = function (){
 ReactDOM.render(
 	<Provider store={store}>
 	<Router history={browserHistory}>
-	<Route path="/" component={Main}>
+	<Route path="/" component={Main} onEnter={loginCheck} >
 		<Route path="/login" component={Login}/>
     <Route path="/loginteach" component={loginTeach}/>
 		<Route path="/signup" component={Signup}/>

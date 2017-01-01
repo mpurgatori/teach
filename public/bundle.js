@@ -129,7 +129,12 @@
 			_store2.default.dispatch((0, _replyAction.loadRepliesTeach)());
 	};
 	
-	var loginCheck = function loginCheck() {};
+	var loginCheck = function loginCheck() {
+			_axios2.default.get('/api/sessions/check').then(function (theRole) {
+					console.log(theRole);
+			});
+	};
+	
 	// const onPromptEnter = function () {
 	//   Promise.all([
 	//     axios.get('/api/courses'),
@@ -154,7 +159,7 @@
 					{ history: _reactRouter.browserHistory },
 					_react2.default.createElement(
 							_reactRouter.Route,
-							{ path: '/', component: _main2.default },
+							{ path: '/', component: _main2.default, onEnter: loginCheck },
 							_react2.default.createElement(_reactRouter.Route, { path: '/login', component: _login2.default }),
 							_react2.default.createElement(_reactRouter.Route, { path: '/loginteach', component: _loginTeacher2.default }),
 							_react2.default.createElement(_reactRouter.Route, { path: '/signup', component: _signup2.default }),
@@ -29021,6 +29026,7 @@
 	var ADD_REPLY = exports.ADD_REPLY = 'ADD_REPLY';
 	
 	var LOAD_TEACH_REPS = exports.LOAD_TEACH_REPS = 'LOAD_TEACH_REPS';
+	var UPDATE_REPLY = exports.UPDATE_REPLY = 'UPDATE_REPLY';
 
 /***/ },
 /* 278 */
@@ -29215,6 +29221,11 @@
 	
 	      break;
 	
+	    // case UPDATE_REPLY:
+	    //   newState.allReplies = action.reply;
+	    //
+	    //   break;
+	
 	    default:
 	      return state;
 	  }
@@ -29241,7 +29252,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.updateReply = exports.loadRepliesTeach = exports.loadReplyTeach = exports.loadReplies = exports.loadReply = exports.createReply = exports.addReply = undefined;
+	exports.updateReplies = exports.loadRepliesTeach = exports.loadReplyTeach = exports.loadReplies = exports.loadReply = exports.createReply = exports.addReply = undefined;
 	
 	var _constants = __webpack_require__(277);
 	
@@ -29299,12 +29310,19 @@
 	  };
 	};
 	
-	var updateReply = exports.updateReply = function updateReply(replyId, feedback) {
+	// export const updateReply = function (reply) {
+	//   return {
+	//     type: UPDATE_REPLY,
+	//     reply
+	//   };
+	// };
+	
+	var updateReplies = exports.updateReplies = function updateReplies(replyId, feedback) {
 	  return function (dispatch) {
 	    _axios2.default.put('/api/replies', {
 	      replyId: replyId,
 	      feedback: feedback
-	    });
+	    }).then(loadRepliesTeach());
 	  };
 	};
 
@@ -30504,6 +30522,10 @@
 	
 	var _reactRouter = __webpack_require__(178);
 	
+	var _axios = __webpack_require__(233);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30515,13 +30537,24 @@
 	var _class = function (_React$Component) {
 	  _inherits(_class, _React$Component);
 	
-	  function _class() {
+	  function _class(props) {
 	    _classCallCheck(this, _class);
 	
-	    return _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this, props));
+	
+	    _this.logOut = _this.logOut.bind(_this);
+	
+	    return _this;
 	  }
 	
 	  _createClass(_class, [{
+	    key: 'logOut',
+	    value: function logOut() {
+	      _axios2.default.get('/api/sessions/logout').then(function (res) {
+	        return console.log(res);
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -30530,6 +30563,15 @@
 	        _react2.default.createElement(
 	          'ul',
 	          { className: 'sidebar-nav' },
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { to: '/', onClick: this.logOut },
+	              'logout'
+	            )
+	          ),
 	          _react2.default.createElement(
 	            'li',
 	            { className: 'sidebar-brand' },
@@ -30805,6 +30847,8 @@
 	        password: this.state.password
 	      }).then(function (res) {
 	        return console.log(res.data);
+	      }).then(function () {
+	        return browserHistory.push('/');
 	      });
 	    }
 	  }, {
@@ -31183,6 +31227,7 @@
 	    };
 	    _this.handleChange = _this.handleChange.bind(_this);
 	    _this.promptSubmit = _this.promptSubmit.bind(_this);
+	    _this.formReset = _this.formReset.bind(_this);
 	    return _this;
 	  }
 	
@@ -31196,10 +31241,24 @@
 	
 	      this.setState((_setState = {}, _defineProperty(_setState, name, value), _defineProperty(_setState, 'dirty', true), _setState));
 	    }
+	
+	    // formReset(){
+	    //   this.setState({
+	    //     content: 'value',
+	    //     dirty: false
+	    //   });
+	    //   target.courseId = 'Select Course'
+	    // }
+	
 	  }, {
 	    key: 'promptSubmit',
 	    value: function promptSubmit(e) {
+	      var _this2 = this;
+	
 	      e.preventDefault();
+	      if (this.state.content === '' || this.state.categoryId === '' || this.state.courseId === '') {
+	        return alert('Please fill out whole form');
+	      }
 	      _axios2.default.post('/api/prompts', {
 	        content: this.state.content,
 	        categoryId: this.state.categoryId,
@@ -31207,7 +31266,7 @@
 	      }).then(function (res) {
 	        return console.log(res.data);
 	      }).then(function () {
-	        return browserHistory.push('/promptwrite');
+	        return _this2.formReset();
 	      });
 	    }
 	  }, {

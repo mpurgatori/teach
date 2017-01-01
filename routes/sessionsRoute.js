@@ -43,5 +43,17 @@ router.post('/teach', function (req, res, next) {
   .catch(next)
 });
 
+router.get('/logout', function(req,res,next){
+  console.log('!!!', req.session);
+  req.session.destroy()
+  res.send('Destroyed');
+})
+
+router.get('/check', function(req,res,next){
+  console.log('This is being hit');
+  if (req.session.studentId){res.send('student')}
+  if (req.session.teacherId){res.send('teacher')}
+  res.send('notta');
+})
 
 module.exports = router;

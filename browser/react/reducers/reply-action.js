@@ -1,4 +1,4 @@
-import { ADD_REPLY, LOAD_REPLIES, LOAD_TEACH_REPS } from './constants';
+import { ADD_REPLY, LOAD_REPLIES, LOAD_TEACH_REPS, UPDATE_REPLY } from './constants';
 import axios from 'axios';
 
 export const addReply = function (reply) {
@@ -54,11 +54,19 @@ export const addReply = function (reply) {
     };
   };
 
-  export const updateReply = (replyId, feedback) => {
+  // export const updateReply = function (reply) {
+  //   return {
+  //     type: UPDATE_REPLY,
+  //     reply
+  //   };
+  // };
+
+  export const updateReplies = (replyId, feedback) => {
     return dispatch => {
       axios.put('/api/replies', {
         replyId,
         feedback
       })
+      .then(loadRepliesTeach())
     };
   };

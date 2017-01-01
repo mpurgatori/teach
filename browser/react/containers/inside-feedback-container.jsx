@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { updateReply } from '../reducers/reply-action';
+import { updateReplies, loadReplies } from '../reducers/reply-action';
 import InsideFeedback from '../components/inside-feedback.jsx'
 import { bindActionCreators } from 'redux';
 
@@ -11,8 +11,7 @@ const mapStateToProps = function(state, ownProps) {
 
 const mapDispatchToProps = function(dispatch, ownProps) {
   return {
-      updateReply: updateReply
-
+    updateReply: bindActionCreators(updateReplies, dispatch)
   };
 }
 

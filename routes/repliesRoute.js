@@ -54,6 +54,7 @@ router.put('/', function(req,res,next){
     { feedback: req.body.feedback },
            { where:
              { id: req.body.id }})
+      .then(reply => res.send(reply))
       .catch(next)
 })
 

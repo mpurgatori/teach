@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
-import InsideFeedback from '../containers/inside-feedback.jsx';
+import InsideFeedback from '../components/inside-feedback.jsx';
 
 export default function(props) {
 console.log('PROPS COMING FROM GIVE FEEDBACK', props);

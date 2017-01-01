@@ -6,3 +6,4 @@ export const LOAD_REPLIES = 'LOAD_REPLIES';
 export const ADD_REPLY = 'ADD_REPLY';
 
 export const LOAD_TEACH_REPS = 'LOAD_TEACH_REPS';
+export const UPDATE_REPLY = 'UPDATE_REPLY';
