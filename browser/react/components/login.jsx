@@ -31,6 +31,7 @@ export default class extends Component {
       password: this.state.password
     })
     .then(res => console.log(res.data))
+    .then(()=>this.props.getSession())
     .then(()=> browserHistory.push('/'));
   }
 

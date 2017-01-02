@@ -2,18 +2,20 @@ import React from 'react';
 import {Link} from 'react-router';
 import axios from 'axios';
 
+const initialState = {
+  content:'',
+  categoryId:'',
+  courseId:'',
+  dirty:false
+}
+
 export default class extends React.Component {
   constructor(props){
     super(props)
-    this.state = {
-      content:'',
-      categoryId:'',
-      courseId:'',
-      dirty:false
-    }
+    this.state = initialState;
     this.handleChange = this.handleChange.bind(this);
     this.promptSubmit = this.promptSubmit.bind(this);
-    this.formReset = this.formReset.bind(this);
+    //this.formReset = this.formReset.bind(this);
   }
 
   handleChange(e) {
@@ -39,13 +41,8 @@ export default class extends React.Component {
     if (this.state.content === ''||this.state.categoryId === ''||this.state.courseId === ''){
       return alert('Please fill out whole form');
     }
-    axios.post('/api/prompts', {
-      content: this.state.content,
-      categoryId: this.state.categoryId,
-      courseId: this.state.courseId
-    })
-    .then(res => console.log(res.data))
-    .then(()=> this.formReset());
+    this.props.createPrompt(this.state.content,this.state.categoryId,this.state.courseId);
+    this.setState(initialState);
   }
 
 
@@ -56,7 +53,7 @@ export default class extends React.Component {
             <fieldset>
           <div className="form-group">
       <label htmlFor="sel1">Select Course:</label>
-      <select className="form-control" id="sel1" name='courseId' onChange={this.handleChange}>
+      <select className="form-control" id="sel1" name='courseId' onChange={this.handleChange} value={this.state.courseId}>
         <option>Select Course</option>
         { this.props.courses.map(course => {
           return (
@@ -68,11 +65,11 @@ export default class extends React.Component {
        </select>
 
       <label htmlFor="sel2">Select Category:</label>
-      <select className="form-control" id="sel2" name='categoryId' onChange={this.handleChange}>
+      <select className="form-control" id="sel2" name='categoryId' onChange={this.handleChange} value={this.state.categoryId}>
         <option>Select Category</option>
-        { this.props.categories.map(categories => {
+        { this.props.categories.map(category => {
           return (
-            <option key={categories.content} value={categories.id}>{categories.content}</option>
+            <option key={category.content} value={category.id}>{category.content}</option>
 
          )
        })

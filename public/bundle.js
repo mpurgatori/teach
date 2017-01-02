@@ -70,35 +70,35 @@
 	
 	var _main2 = _interopRequireDefault(_main);
 	
-	var _sidebar = __webpack_require__(301);
+	var _sidebar = __webpack_require__(302);
 	
 	var _sidebar2 = _interopRequireDefault(_sidebar);
 	
-	var _login = __webpack_require__(302);
+	var _loginContainer = __webpack_require__(304);
 	
-	var _login2 = _interopRequireDefault(_login);
+	var _loginContainer2 = _interopRequireDefault(_loginContainer);
 	
-	var _loginTeacher = __webpack_require__(303);
+	var _teacherLoginContainer = __webpack_require__(306);
 	
-	var _loginTeacher2 = _interopRequireDefault(_loginTeacher);
+	var _teacherLoginContainer2 = _interopRequireDefault(_teacherLoginContainer);
 	
-	var _signup = __webpack_require__(304);
+	var _signup = __webpack_require__(308);
 	
 	var _signup2 = _interopRequireDefault(_signup);
 	
-	var _replyDisplayContainer = __webpack_require__(305);
+	var _replyDisplayContainer = __webpack_require__(309);
 	
 	var _replyDisplayContainer2 = _interopRequireDefault(_replyDisplayContainer);
 	
-	var _promptContainer = __webpack_require__(307);
+	var _promptContainer = __webpack_require__(311);
 	
 	var _promptContainer2 = _interopRequireDefault(_promptContainer);
 	
-	var _replyContainer = __webpack_require__(309);
+	var _replyContainer = __webpack_require__(314);
 	
 	var _replyContainer2 = _interopRequireDefault(_replyContainer);
 	
-	var _giveContainer = __webpack_require__(313);
+	var _giveContainer = __webpack_require__(318);
 	
 	var _giveContainer2 = _interopRequireDefault(_giveContainer);
 	
@@ -106,9 +106,11 @@
 	
 	var _categoriesAction = __webpack_require__(279);
 	
-	var _promptAction = __webpack_require__(281);
+	var _promptAction = __webpack_require__(313);
 	
-	var _replyAction = __webpack_require__(283);
+	var _replyAction = __webpack_require__(282);
+	
+	var _sessionAction = __webpack_require__(303);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -130,9 +132,7 @@
 	};
 	
 	var loginCheck = function loginCheck() {
-			_axios2.default.get('/api/sessions/check').then(function (theRole) {
-					console.log(theRole);
-			});
+			_store2.default.dispatch((0, _sessionAction.getSession)());
 	};
 	
 	// const onPromptEnter = function () {
@@ -160,8 +160,8 @@
 					_react2.default.createElement(
 							_reactRouter.Route,
 							{ path: '/', component: _main2.default, onEnter: loginCheck },
-							_react2.default.createElement(_reactRouter.Route, { path: '/login', component: _login2.default }),
-							_react2.default.createElement(_reactRouter.Route, { path: '/loginteach', component: _loginTeacher2.default }),
+							_react2.default.createElement(_reactRouter.Route, { path: '/login', component: _loginContainer2.default }),
+							_react2.default.createElement(_reactRouter.Route, { path: '/loginteach', component: _teacherLoginContainer2.default }),
 							_react2.default.createElement(_reactRouter.Route, { path: '/signup', component: _signup2.default }),
 							_react2.default.createElement(_reactRouter.Route, { path: '/view', component: _replyDisplayContainer2.default, onEnter: onViewEnter }),
 							_react2.default.createElement(_reactRouter.Route, { path: '/replywrite', component: _replyContainer2.default, onEnter: onReplyEnter }),
@@ -28910,6 +28910,13 @@
 	  value: true
 	});
 	
+	exports.default = function (state, action) {
+	  if (action.type === _constants.LOGOUT) {
+	    state = undefined;
+	  }
+	  return combReduce(state, action);
+	};
+	
 	var _redux = __webpack_require__(259);
 	
 	var _courseReducer = __webpack_require__(275);
@@ -28924,17 +28931,24 @@
 	
 	var _promptReducer2 = _interopRequireDefault(_promptReducer);
 	
-	var _replyReducer = __webpack_require__(282);
+	var _replyReducer = __webpack_require__(281);
 	
 	var _replyReducer2 = _interopRequireDefault(_replyReducer);
 	
+	var _sessionReducer = __webpack_require__(283);
+	
+	var _sessionReducer2 = _interopRequireDefault(_sessionReducer);
+	
+	var _constants = __webpack_require__(277);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	exports.default = (0, _redux.combineReducers)({
+	var combReduce = (0, _redux.combineReducers)({
 	  courses: _courseReducer2.default,
 	  categories: _categoriesReducer2.default,
 	  prompts: _promptReducer2.default,
-	  replies: _replyReducer2.default
+	  replies: _replyReducer2.default,
+	  session: _sessionReducer2.default
 	});
 
 /***/ },
@@ -29027,6 +29041,11 @@
 	
 	var LOAD_TEACH_REPS = exports.LOAD_TEACH_REPS = 'LOAD_TEACH_REPS';
 	var UPDATE_REPLY = exports.UPDATE_REPLY = 'UPDATE_REPLY';
+	var ADD_PROMPT = exports.ADD_PROMPT = 'ADD_PROMPT';
+	
+	var GET_SESSION = exports.GET_SESSION = 'GET_SESSION';
+	
+	var LOGOUT = exports.LOGOUT = 'LOGOUT';
 
 /***/ },
 /* 278 */
@@ -29130,13 +29149,15 @@
 	      matchPrompt.replies = [].concat(_toConsumableArray(matchPrompt.replies), [action.reply]);
 	      break;
 	
+	    case _constants.ADD_PROMPT:
+	      newState.allPrompts = [].concat(_toConsumableArray(newState.allPrompts), [action.prompt]);
+	      break;
+	
 	    default:
 	      return state;
 	  }
 	  return newState;
 	};
-	
-	var _promptAction = __webpack_require__(281);
 	
 	var _constants = __webpack_require__(277);
 	
@@ -29148,47 +29169,6 @@
 
 /***/ },
 /* 281 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.loadPrompts = exports.receivePrompts = undefined;
-	
-	var _constants = __webpack_require__(277);
-	
-	var _axios = __webpack_require__(233);
-	
-	var _axios2 = _interopRequireDefault(_axios);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var receivePrompts = exports.receivePrompts = function receivePrompts(prompts) {
-	  return {
-	    type: _constants.LOAD_PROMPTS,
-	    prompts: prompts
-	  };
-	};
-	
-	var loadPrompts = exports.loadPrompts = function loadPrompts() {
-	  return function (dispatch) {
-	    _axios2.default.get('/api/prompts').then(function (response) {
-	      dispatch(receivePrompts(response.data));
-	    });
-	  };
-	};
-	
-	// export const createPrompt = () => {
-	//   return dispatch => {
-	//     axios.post(`/api/prompts`)
-	//     .then()
-	//   }
-	// }
-
-/***/ },
-/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29221,10 +29201,13 @@
 	
 	      break;
 	
-	    // case UPDATE_REPLY:
-	    //   newState.allReplies = action.reply;
-	    //
-	    //   break;
+	    case _constants.UPDATE_REPLY:
+	      newState.allReplies = [].concat(_toConsumableArray(newState.allReplies));
+	      newState.allReplies.find(function (reply) {
+	        return action.reply.id === reply.id;
+	      }).feedback = action.reply.feedback;
+	
+	      break;
 	
 	    default:
 	      return state;
@@ -29233,7 +29216,7 @@
 	  return newState;
 	};
 	
-	var _replyAction = __webpack_require__(283);
+	var _replyAction = __webpack_require__(282);
 	
 	var _constants = __webpack_require__(277);
 	
@@ -29244,7 +29227,7 @@
 	};
 
 /***/ },
-/* 283 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29252,7 +29235,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.updateReplies = exports.loadRepliesTeach = exports.loadReplyTeach = exports.loadReplies = exports.loadReply = exports.createReply = exports.addReply = undefined;
+	exports.updateReplies = exports.updateReply = exports.loadRepliesTeach = exports.loadReplyTeach = exports.loadReplies = exports.loadReply = exports.createReply = exports.addReply = undefined;
 	
 	var _constants = __webpack_require__(277);
 	
@@ -29310,20 +29293,59 @@
 	  };
 	};
 	
-	// export const updateReply = function (reply) {
-	//   return {
-	//     type: UPDATE_REPLY,
-	//     reply
-	//   };
-	// };
-	
-	var updateReplies = exports.updateReplies = function updateReplies(replyId, feedback) {
-	  return function (dispatch) {
-	    _axios2.default.put('/api/replies', {
-	      replyId: replyId,
-	      feedback: feedback
-	    }).then(loadRepliesTeach());
+	var updateReply = exports.updateReply = function updateReply(reply) {
+	  return {
+	    type: _constants.UPDATE_REPLY,
+	    reply: reply
 	  };
+	};
+	
+	var updateReplies = exports.updateReplies = function updateReplies(id, feedback) {
+	  var reply = {
+	    id: id,
+	    feedback: feedback
+	  };
+	  return function (dispatch) {
+	    _axios2.default.put('/api/replies', reply).then(function () {
+	      dispatch(updateReply(reply));
+	    });
+	  };
+	};
+
+/***/ },
+/* 283 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	exports.default = function () {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+	  var action = arguments[1];
+	
+	
+	  var newState = Object.assign({}, state);
+	
+	  switch (action.type) {
+	
+	    case _constants.GET_SESSION:
+	      newState = action.session;
+	      break;
+	
+	    default:
+	      return state;
+	  }
+	
+	  return newState;
+	};
+	
+	var _constants = __webpack_require__(277);
+	
+	var initialState = {
+	  role: null
 	};
 
 /***/ },
@@ -30449,9 +30471,9 @@
 	
 	var _reactRouter = __webpack_require__(178);
 	
-	var _sidebar = __webpack_require__(301);
+	var _sidebarContainer = __webpack_require__(301);
 	
-	var _sidebar2 = _interopRequireDefault(_sidebar);
+	var _sidebarContainer2 = _interopRequireDefault(_sidebarContainer);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -30476,7 +30498,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'page-content-wrapper' },
-	        _react2.default.createElement(_sidebar2.default, null),
+	        _react2.default.createElement(_sidebarContainer2.default, null),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'container-fluid' },
@@ -30506,6 +30528,42 @@
 
 /***/ },
 /* 301 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(285);
+	
+	var _sidebar = __webpack_require__(302);
+	
+	var _sidebar2 = _interopRequireDefault(_sidebar);
+	
+	var _sessionAction = __webpack_require__(303);
+	
+	var _redux = __webpack_require__(259);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	  return {
+	    session: state.session
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+	  return {
+	    logOut: (0, _redux.bindActionCreators)(_sessionAction.destroySession, dispatch)
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_sidebar2.default);
+
+/***/ },
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30550,25 +30608,24 @@
 	  _createClass(_class, [{
 	    key: 'logOut',
 	    value: function logOut() {
-	      _axios2.default.get('/api/sessions/logout').then(function (res) {
-	        return console.log(res);
-	      });
+	      this.props.logOut();
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var role = this.props.session.role;
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'sidebar-wrapper' },
 	        _react2.default.createElement(
 	          'ul',
 	          { className: 'sidebar-nav' },
-	          _react2.default.createElement(
+	          role && _react2.default.createElement(
 	            'li',
 	            null,
 	            _react2.default.createElement(
-	              _reactRouter.Link,
-	              { to: '/', onClick: this.logOut },
+	              'a',
+	              { href: '#', onClick: this.logOut },
 	              'logout'
 	            )
 	          ),
@@ -30581,7 +30638,7 @@
 	              'Teach'
 	            )
 	          ),
-	          _react2.default.createElement(
+	          !role && _react2.default.createElement(
 	            'li',
 	            null,
 	            _react2.default.createElement(
@@ -30590,7 +30647,7 @@
 	              'STUDENT LOGIN'
 	            )
 	          ),
-	          _react2.default.createElement(
+	          !role && _react2.default.createElement(
 	            'li',
 	            null,
 	            _react2.default.createElement(
@@ -30599,7 +30656,7 @@
 	              'TEACHER LOGIN'
 	            )
 	          ),
-	          _react2.default.createElement(
+	          !role && _react2.default.createElement(
 	            'li',
 	            null,
 	            _react2.default.createElement(
@@ -30608,7 +30665,7 @@
 	              'STUDENT SIGN UP'
 	            )
 	          ),
-	          _react2.default.createElement(
+	          role === 'student' && _react2.default.createElement(
 	            'li',
 	            null,
 	            _react2.default.createElement(
@@ -30617,7 +30674,7 @@
 	              'WRITE'
 	            )
 	          ),
-	          _react2.default.createElement(
+	          role === 'student' && _react2.default.createElement(
 	            'li',
 	            null,
 	            _react2.default.createElement(
@@ -30626,7 +30683,7 @@
 	              'VIEW FEEDBACK'
 	            )
 	          ),
-	          _react2.default.createElement(
+	          role === 'teacher' && _react2.default.createElement(
 	            'li',
 	            null,
 	            _react2.default.createElement(
@@ -30635,7 +30692,7 @@
 	              'PROMPT CREATE'
 	            )
 	          ),
-	          _react2.default.createElement(
+	          role === 'teacher' && _react2.default.createElement(
 	            'li',
 	            null,
 	            _react2.default.createElement(
@@ -30655,7 +30712,92 @@
 	exports.default = _class;
 
 /***/ },
-/* 302 */
+/* 303 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.setSession = setSession;
+	exports.getSession = getSession;
+	exports.logOut = logOut;
+	exports.destroySession = destroySession;
+	
+	var _constants = __webpack_require__(277);
+	
+	var _axios = __webpack_require__(233);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function setSession(session) {
+	  return {
+	    type: _constants.GET_SESSION,
+	    session: session
+	  };
+	};
+	
+	function getSession() {
+	  return function (dispatch) {
+	    _axios2.default.get('/api/sessions').then(function (session) {
+	      return dispatch(setSession(session.data));
+	    });
+	  };
+	}
+	
+	function logOut() {
+	  return {
+	    type: _constants.LOGOUT
+	  };
+	};
+	
+	function destroySession() {
+	  return function (dispatch) {
+	    return _axios2.default.get('/api/sessions/logout').then(function () {
+	      return dispatch(logOut());
+	    });
+	  };
+	}
+
+/***/ },
+/* 304 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(285);
+	
+	var _login = __webpack_require__(305);
+	
+	var _login2 = _interopRequireDefault(_login);
+	
+	var _sessionAction = __webpack_require__(303);
+	
+	var _redux = __webpack_require__(259);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	  return {};
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+	  return {
+	    getSession: (0, _redux.bindActionCreators)(_sessionAction.getSession, dispatch)
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_login2.default);
+
+/***/ },
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30717,12 +30859,16 @@
 	  }, {
 	    key: 'login',
 	    value: function login(e) {
+	      var _this2 = this;
+	
 	      e.preventDefault();
 	      _axios2.default.post('/api/sessions', {
 	        email: this.state.email,
 	        password: this.state.password
 	      }).then(function (res) {
 	        return console.log(res.data);
+	      }).then(function () {
+	        return _this2.props.getSession();
 	      }).then(function () {
 	        return _reactRouter.browserHistory.push('/');
 	      });
@@ -30781,7 +30927,41 @@
 	exports.default = _class;
 
 /***/ },
-/* 303 */
+/* 306 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(285);
+	
+	var _loginTeacher = __webpack_require__(307);
+	
+	var _loginTeacher2 = _interopRequireDefault(_loginTeacher);
+	
+	var _sessionAction = __webpack_require__(303);
+	
+	var _redux = __webpack_require__(259);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	  return {};
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+	  return {
+	    getSession: (0, _redux.bindActionCreators)(_sessionAction.getSession, dispatch)
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_loginTeacher2.default);
+
+/***/ },
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30799,6 +30979,8 @@
 	var _axios = __webpack_require__(233);
 	
 	var _axios2 = _interopRequireDefault(_axios);
+	
+	var _reactRouter = __webpack_require__(178);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -30841,6 +31023,8 @@
 	  }, {
 	    key: 'login',
 	    value: function login(e) {
+	      var _this2 = this;
+	
 	      e.preventDefault();
 	      _axios2.default.post('/api/sessions/teach', {
 	        email: this.state.email,
@@ -30848,7 +31032,9 @@
 	      }).then(function (res) {
 	        return console.log(res.data);
 	      }).then(function () {
-	        return browserHistory.push('/');
+	        return _this2.props.getSession();
+	      }).then(function () {
+	        return _reactRouter.browserHistory.push('/');
 	      });
 	    }
 	  }, {
@@ -30905,7 +31091,7 @@
 	exports.default = _class;
 
 /***/ },
-/* 304 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31061,40 +31247,39 @@
 	exports.default = Signup;
 
 /***/ },
-/* 305 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
 	
 	var _reactRedux = __webpack_require__(285);
 	
-	var _replyDisplay = __webpack_require__(306);
+	var _replyDisplay = __webpack_require__(310);
 	
 	var _replyDisplay2 = _interopRequireDefault(_replyDisplay);
 	
-	var _replyAction = __webpack_require__(283);
+	var _replyAction = __webpack_require__(282);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var mapStateToProps = function mapStateToProps(state, ownProps) {
-	  console.log('THIS IS STATE IN REPLY CONTAINER', state);
-	  return {
-	    replies: state.replies.allReplies
-	  };
+	    return {
+	        replies: state.replies.allReplies
+	    };
 	};
 	
 	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
-	  return {};
+	    return {};
 	};
 	
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_replyDisplay2.default);
 
 /***/ },
-/* 306 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31145,7 +31330,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
-/* 307 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31156,13 +31341,17 @@
 	
 	var _reactRedux = __webpack_require__(285);
 	
-	var _promptWrite = __webpack_require__(308);
+	var _promptWrite = __webpack_require__(312);
 	
 	var _promptWrite2 = _interopRequireDefault(_promptWrite);
 	
 	var _coursesAction = __webpack_require__(276);
 	
 	var _categoriesAction = __webpack_require__(279);
+	
+	var _promptAction = __webpack_require__(313);
+	
+	var _redux = __webpack_require__(259);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -31174,13 +31363,15 @@
 	};
 	
 	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
-	    return {};
+	    return {
+	        createPrompt: (0, _redux.bindActionCreators)(_promptAction.createPrompt, dispatch)
+	    };
 	};
 	
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_promptWrite2.default);
 
 /***/ },
-/* 308 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31211,6 +31402,13 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
+	var initialState = {
+	  content: '',
+	  categoryId: '',
+	  courseId: '',
+	  dirty: false
+	};
+	
 	var _class = function (_React$Component) {
 	  _inherits(_class, _React$Component);
 	
@@ -31219,15 +31417,10 @@
 	
 	    var _this = _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this, props));
 	
-	    _this.state = {
-	      content: '',
-	      categoryId: '',
-	      courseId: '',
-	      dirty: false
-	    };
+	    _this.state = initialState;
 	    _this.handleChange = _this.handleChange.bind(_this);
 	    _this.promptSubmit = _this.promptSubmit.bind(_this);
-	    _this.formReset = _this.formReset.bind(_this);
+	    //this.formReset = this.formReset.bind(this);
 	    return _this;
 	  }
 	
@@ -31253,21 +31446,12 @@
 	  }, {
 	    key: 'promptSubmit',
 	    value: function promptSubmit(e) {
-	      var _this2 = this;
-	
 	      e.preventDefault();
 	      if (this.state.content === '' || this.state.categoryId === '' || this.state.courseId === '') {
 	        return alert('Please fill out whole form');
 	      }
-	      _axios2.default.post('/api/prompts', {
-	        content: this.state.content,
-	        categoryId: this.state.categoryId,
-	        courseId: this.state.courseId
-	      }).then(function (res) {
-	        return console.log(res.data);
-	      }).then(function () {
-	        return _this2.formReset();
-	      });
+	      this.props.createPrompt(this.state.content, this.state.categoryId, this.state.courseId);
+	      this.setState(initialState);
 	    }
 	  }, {
 	    key: 'render',
@@ -31291,7 +31475,7 @@
 	              ),
 	              _react2.default.createElement(
 	                'select',
-	                { className: 'form-control', id: 'sel1', name: 'courseId', onChange: this.handleChange },
+	                { className: 'form-control', id: 'sel1', name: 'courseId', onChange: this.handleChange, value: this.state.courseId },
 	                _react2.default.createElement(
 	                  'option',
 	                  null,
@@ -31312,17 +31496,17 @@
 	              ),
 	              _react2.default.createElement(
 	                'select',
-	                { className: 'form-control', id: 'sel2', name: 'categoryId', onChange: this.handleChange },
+	                { className: 'form-control', id: 'sel2', name: 'categoryId', onChange: this.handleChange, value: this.state.categoryId },
 	                _react2.default.createElement(
 	                  'option',
 	                  null,
 	                  'Select Category'
 	                ),
-	                this.props.categories.map(function (categories) {
+	                this.props.categories.map(function (category) {
 	                  return _react2.default.createElement(
 	                    'option',
-	                    { key: categories.content, value: categories.id },
-	                    categories.content
+	                    { key: category.content, value: category.id },
+	                    category.content
 	                  );
 	                })
 	              )
@@ -31378,7 +31562,60 @@
 	exports.default = _class;
 
 /***/ },
-/* 309 */
+/* 313 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.createPrompt = exports.addPrompt = exports.loadPrompts = exports.receivePrompts = undefined;
+	
+	var _constants = __webpack_require__(277);
+	
+	var _axios = __webpack_require__(233);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var receivePrompts = exports.receivePrompts = function receivePrompts(prompts) {
+	  return {
+	    type: _constants.LOAD_PROMPTS,
+	    prompts: prompts
+	  };
+	};
+	
+	var loadPrompts = exports.loadPrompts = function loadPrompts() {
+	  return function (dispatch) {
+	    _axios2.default.get('/api/prompts').then(function (response) {
+	      dispatch(receivePrompts(response.data));
+	    });
+	  };
+	};
+	
+	var addPrompt = exports.addPrompt = function addPrompt(prompt) {
+	  return {
+	    type: _constants.ADD_PROMPT,
+	    prompt: prompt
+	  };
+	};
+	
+	var createPrompt = exports.createPrompt = function createPrompt(content, categoryId, courseId) {
+	  return function (dispatch) {
+	    _axios2.default.post('/api/prompts', {
+	      content: content,
+	      categoryId: categoryId,
+	      courseId: courseId
+	    }).then(function (prompt) {
+	      dispatch(addPrompt(prompt));
+	    });
+	  };
+	};
+
+/***/ },
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31389,11 +31626,11 @@
 	
 	var _reactRedux = __webpack_require__(285);
 	
-	var _replyWrite = __webpack_require__(310);
+	var _replyWrite = __webpack_require__(315);
 	
 	var _replyWrite2 = _interopRequireDefault(_replyWrite);
 	
-	var _promptAction = __webpack_require__(281);
+	var _promptAction = __webpack_require__(313);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -31411,7 +31648,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_replyWrite2.default);
 
 /***/ },
-/* 310 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31421,7 +31658,7 @@
 	});
 	
 	exports.default = function (props) {
-	
+	  console.log('************', props);
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'container' },
@@ -31439,14 +31676,14 @@
 	
 	var _reactRouter = __webpack_require__(178);
 	
-	var _insideContainer = __webpack_require__(311);
+	var _insideContainer = __webpack_require__(316);
 	
 	var _insideContainer2 = _interopRequireDefault(_insideContainer);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
-/* 311 */
+/* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31457,9 +31694,9 @@
 	
 	var _reactRedux = __webpack_require__(285);
 	
-	var _replyAction = __webpack_require__(283);
+	var _replyAction = __webpack_require__(282);
 	
-	var _insidePrompt = __webpack_require__(312);
+	var _insidePrompt = __webpack_require__(317);
 	
 	var _insidePrompt2 = _interopRequireDefault(_insidePrompt);
 	
@@ -31480,7 +31717,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_insidePrompt2.default);
 
 /***/ },
-/* 312 */
+/* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31604,7 +31841,7 @@
 	exports.default = _class;
 
 /***/ },
-/* 313 */
+/* 318 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31615,11 +31852,11 @@
 	
 	var _reactRedux = __webpack_require__(285);
 	
-	var _giveFeedback = __webpack_require__(314);
+	var _giveFeedback = __webpack_require__(319);
 	
 	var _giveFeedback2 = _interopRequireDefault(_giveFeedback);
 	
-	var _replyAction = __webpack_require__(283);
+	var _replyAction = __webpack_require__(282);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -31637,7 +31874,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_giveFeedback2.default);
 
 /***/ },
-/* 314 */
+/* 319 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31647,14 +31884,13 @@
 	});
 	
 	exports.default = function (props) {
-	  console.log('PROPS COMING FROM GIVE FEEDBACK', props);
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'container' },
 	    props.replies.filter(function (reply) {
 	      return !reply.feedback;
 	    }).map(function (reply) {
-	      return _react2.default.createElement(_insideFeedback2.default, { key: reply.id, reply: reply });
+	      return _react2.default.createElement(_insideFeedbackContainer2.default, { key: reply.id, reply: reply });
 	    })
 	  );
 	};
@@ -31665,14 +31901,48 @@
 	
 	var _reactRouter = __webpack_require__(178);
 	
-	var _insideFeedback = __webpack_require__(315);
+	var _insideFeedbackContainer = __webpack_require__(320);
 	
-	var _insideFeedback2 = _interopRequireDefault(_insideFeedback);
+	var _insideFeedbackContainer2 = _interopRequireDefault(_insideFeedbackContainer);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
-/* 315 */
+/* 320 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(285);
+	
+	var _replyAction = __webpack_require__(282);
+	
+	var _insideFeedback = __webpack_require__(321);
+	
+	var _insideFeedback2 = _interopRequireDefault(_insideFeedback);
+	
+	var _redux = __webpack_require__(259);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	  return {};
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+	  return {
+	    updateReply: (0, _redux.bindActionCreators)(_replyAction.updateReplies, dispatch)
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_insideFeedback2.default);
+
+/***/ },
+/* 321 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31717,14 +31987,13 @@
 	    value: function handleChange(e) {
 	      var value = e.target.value;
 	      this.setState({
-	        content: value,
+	        feedback: value,
 	        dirty: true
 	      });
 	    }
 	  }, {
 	    key: 'replySubmit',
 	    value: function replySubmit(e) {
-	      console.log('!^!^!^!^!^!^', this.props);
 	      e.preventDefault();
 	      this.props.updateReply(this.props.reply.id, this.state.feedback);
 	    }
@@ -31738,6 +32007,13 @@
 	        _react2.default.createElement(
 	          'div',
 	          null,
+	          'Prompt: ',
+	          this.props.reply.prompt.content
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          'Student Response: ',
 	          this.props.reply.content
 	        ),
 	        _react2.default.createElement(
@@ -31766,7 +32042,7 @@
 	                    _react2.default.createElement(
 	                      'div',
 	                      { className: 'col-md-12' },
-	                      _react2.default.createElement('textarea', { onChange: this.handleChange, className: 'form-control', id: 'message', name: 'message', placeholder: 'Write here', rows: '7' })
+	                      _react2.default.createElement('textarea', { onChange: this.handleChange, className: 'form-control', id: 'message', name: 'message', placeholder: 'Leave feedback for student', rows: '7' })
 	                    )
 	                  ),
 	                  _react2.default.createElement(

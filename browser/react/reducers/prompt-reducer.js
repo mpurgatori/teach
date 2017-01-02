@@ -1,5 +1,5 @@
-import { loadPrompts } from './prompt-action';
-import { LOAD_PROMPTS, ADD_REPLY } from './constants';
+
+import { LOAD_PROMPTS, ADD_REPLY, ADD_PROMPT} from './constants';
 
 
 
@@ -25,6 +25,10 @@ export default function(state = initialState, action){
         return prompt.id === action.reply.promptId
       })
       matchPrompt.replies = [...matchPrompt.replies, action.reply];
+      break;
+
+    case ADD_PROMPT:
+      newState.allPrompts = [...newState.allPrompts, action.prompt]
       break;
 
     default:

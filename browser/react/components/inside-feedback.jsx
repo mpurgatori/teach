@@ -16,14 +16,13 @@ export default class extends React.Component {
   handleChange(e) {
     const value = e.target.value;
     this.setState({
-      content: value,
+      feedback: value,
       dirty: true
     });
   }
 
 
   replySubmit(e) {
-    console.log('!^!^!^!^!^!^', this.props);
     e.preventDefault();
     this.props.updateReply(this.props.reply.id, this.state.feedback);
   }
@@ -32,7 +31,8 @@ export default class extends React.Component {
     console.log('THIS.PROPS FROM INSIDE FEEDBACK', this.props);
     return (
     <div>
-      <div>{this.props.reply.content}</div>
+      <div>Prompt: {this.props.reply.prompt.content}</div>
+      <div>Student Response: {this.props.reply.content}</div>
       <div className="row">
         <div className="col-md-12">
           <div className="well well-sm">
@@ -43,7 +43,7 @@ export default class extends React.Component {
                           <i className="fa fa-pencil-square-o bigicon"></i>
                       </span>
                       <div className="col-md-12">
-                          <textarea onChange={this.handleChange} className="form-control" id="message" name="message" placeholder="Write here" rows="7"></textarea>
+                          <textarea onChange={this.handleChange} className="form-control" id="message" name="message" placeholder="Leave feedback for student" rows="7"></textarea>
                       </div>
                   </div>
                   <div className="form-group">

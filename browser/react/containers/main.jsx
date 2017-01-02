@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import Sidebar from '../components/sidebar.jsx';
+import Sidebar from '../containers/sidebar-container.js';
 
 class Main extends React.Component {
 
@@ -11,7 +11,7 @@ class Main extends React.Component {
   render(){
     return (
       <div id="page-content-wrapper">
-        <Sidebar/>
+        <Sidebar />
           <div className="container-fluid">
               <div className="row">
                   <div className="col-lg-12">

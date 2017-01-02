@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { browserHistory } from 'react-router';
+
 
 export default class extends Component {
   constructor(props) {
@@ -30,6 +32,7 @@ export default class extends Component {
       password: this.state.password
     })
     .then(res => console.log(res.data))
+    .then(()=>this.props.getSession())
     .then(()=> browserHistory.push('/'));
   }
 

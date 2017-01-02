@@ -15,7 +15,6 @@ router.post('/', function(req,res,next){
 
 
 router.get('/', function (req, res, next) {
-  console.log('!&!&!&!&!', req.session);
   let role = null;
   let query = {
     include: [{
@@ -43,11 +42,12 @@ router.get('/', function (req, res, next) {
   return Prompt.findAll(query)
   .then(prompts => {
     if (role === 'student') {
-      prompts.forEach(prompt => {
-        prompt.replies = prompt.replies.filter(reply => reply.studentId === req.session.studentId )
-      })
+      return prompts.map(prompt => {
+        prompt.dataValues.replies = prompt.dataValues.replies.filter(reply => reply.studentId === req.session.studentId);
+        return prompt;
+      });
     }
-    return prompts
+    return prompts;
   })
   .then(prompts => res.send(prompts))
   .catch(next)

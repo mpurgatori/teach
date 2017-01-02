@@ -30,10 +30,11 @@ export default function(state = initialState, action){
 
       break;
 
-    // case UPDATE_REPLY:
-    //   newState.allReplies = action.reply;
-    //
-    //   break;
+    case UPDATE_REPLY:
+      newState.allReplies = [...newState.allReplies];
+      newState.allReplies.find(reply => action.reply.id === reply.id).feedback = action.reply.feedback;
+
+      break;
 
     default:
       return state;

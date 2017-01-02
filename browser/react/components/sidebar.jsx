@@ -12,43 +12,59 @@ constructor(props){
 }
 
 logOut(){
-  axios.get('/api/sessions/logout')
-  .then(res=>console.log(res))
+  this.props.logOut();
 }
 
 render(){
+  const role = this.props.session.role
   return (
       <div id="sidebar-wrapper">
         <ul className="sidebar-nav">
+          {role &&
           <li>
-            <Link to="/" onClick={this.logOut}>logout</Link>
+            <a href ='#' onClick={this.logOut}>logout</a>
           </li>
+          }
             <li className="sidebar-brand">
                 <h1>
                     Teach
                 </h1>
             </li>
+            {!role &&
             <li>
               <Link to="/login">STUDENT LOGIN</Link>
             </li>
+            }
+            {!role &&
             <li>
               <Link to="/loginteach">TEACHER LOGIN</Link>
             </li>
+            }
+            {!role &&
             <li>
               <Link to="/signup">STUDENT SIGN UP</Link>
             </li>
+            }
+            {role==='student' &&
             <li>
               <Link to="/replywrite">WRITE</Link>
             </li>
+            }
+            {role==='student' &&
             <li>
               <Link to="/view">VIEW FEEDBACK</Link>
             </li>
+            }
+            {role==='teacher' &&
             <li>
               <Link to="/promptwrite">PROMPT CREATE</Link>
             </li>
+            }
+            {role==='teacher' &&
             <li>
               <Link to="/feedback">GIVE FEEDBACK</Link>
             </li>
+            }
         </ul>
       </div>
     )

@@ -44,16 +44,15 @@ router.post('/teach', function (req, res, next) {
 });
 
 router.get('/logout', function(req,res,next){
-  console.log('!!!', req.session);
   req.session.destroy()
   res.send('Destroyed');
 })
 
-router.get('/check', function(req,res,next){
-  console.log('This is being hit');
-  if (req.session.studentId){res.send('student')}
-  if (req.session.teacherId){res.send('teacher')}
-  res.send('notta');
+router.get('/', function(req,res,next){
+  const sessionData = {role:null};
+  if (req.session.studentId) sessionData.role = 'student';
+  if (req.session.teacherId) sessionData.role = 'teacher';
+  res.send(sessionData);
 })
 
 module.exports = router;

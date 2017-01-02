@@ -54,19 +54,22 @@ export const addReply = function (reply) {
     };
   };
 
-  // export const updateReply = function (reply) {
-  //   return {
-  //     type: UPDATE_REPLY,
-  //     reply
-  //   };
-  // };
-
-  export const updateReplies = (replyId, feedback) => {
-    return dispatch => {
-      axios.put('/api/replies', {
-        replyId,
-        feedback
-      })
-      .then(loadRepliesTeach())
+  export const updateReply = function (reply) {
+    return {
+      type: UPDATE_REPLY,
+      reply
     };
   };
+
+export const updateReplies = (id, feedback) => {
+  const reply = {
+    id,
+    feedback
+  };
+  return dispatch => {
+    axios.put('/api/replies', reply)
+    .then(()=> {
+      dispatch(updateReply(reply))
+    })
+  };
+}

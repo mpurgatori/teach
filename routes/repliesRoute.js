@@ -25,6 +25,9 @@ router.get('/teacher', function (req, res, next) {
   console.log('SESSION FOR REPLY',req.session);
     return Reply.findAll({
       include:[{
+        model: Student
+      },
+      {
         model: Prompt,
         include:[{
           model: Course,
@@ -40,12 +43,40 @@ router.get('/teacher', function (req, res, next) {
 
 
 router.post('/', function(req, res, next){
-  return Reply.create({
-    content: req.body.replyContent,
-    promptId: req.body.promptId,
-    studentId: req.session.studentId
+  let student;
+  let prompt;
+  return Promise.all([
+    Student.findOne({
+      where: {
+        id: req.session.studentId
+      }
+    }),
+    Prompt.findOne({
+      where: {
+        id: req.body.promptId
+      }
+    })
+  ])
+  .then(function(values){
+    student = values[0];
+    prompt = values[1]
+    console.log('This is student object',student);
   })
-  .then( reply => res.send(reply))
+  .then(()=> {
+    return Reply.build({
+      content: req.body.replyContent
+    })
+  })
+  .then(rep => {
+    rep.setStudent(student);
+    rep.setPrompt(prompt);
+    console.log('this is rep',rep);
+    return rep.save();
+  })
+  .then( reply => {
+    console.log('Here is REPLY', reply);
+    res.send(reply)
+  })
   .catch(next);
 })
 

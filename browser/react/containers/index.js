@@ -10,8 +10,8 @@ import { Provider } from 'react-redux';
 
 import Main from './main.jsx'
 import Sidebar from '../components/sidebar.jsx'
-import Login from '../components/login.jsx'
-import loginTeach from '../components/login-teacher.jsx'
+import Login from '../containers/login-container.js'
+import loginTeach from '../containers/teacher-login-container.js'
 import Signup from '../components/signup.jsx'
 import View from './reply-display-container.jsx'
 import promptWrite from './prompt-container.jsx'
@@ -25,6 +25,8 @@ import { receiveCourses, loadCourses } from '../reducers/courses-action';
 import { receiveCategories, loadCategories } from '../reducers/categories-action';
 import { receivePrompts, loadPrompts } from '../reducers/prompt-action';
 import { loadReply, loadReplies, loadRepliesTeach } from '../reducers/reply-action';
+import { getSession } from '../reducers/session-action';
+
 
 
 const onPromptEnter = function (){
@@ -46,10 +48,7 @@ const onTeachReply = function(){
 }
 
 const loginCheck = function (){
-  axios.get('/api/sessions/check')
-  .then(function(theRole){
-    console.log(theRole);
-  })
+  store.dispatch(getSession())
 }
 
 
