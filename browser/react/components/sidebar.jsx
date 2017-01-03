@@ -26,9 +26,7 @@ render(){
           </li>
           }
             <li className="sidebar-brand">
-                <h1>
-                    Teach
-                </h1>
+                <h1>Teach</h1>
             </li>
             {!role &&
             <li>

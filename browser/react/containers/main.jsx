@@ -1,12 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router';
 import Sidebar from '../containers/sidebar-container.js';
+import axios from 'axios';
+
+let name;
 
 class Main extends React.Component {
 
   constructor(props){
     super(props)
   }
+
 
   render(){
     return (

@@ -27979,8 +27979,6 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = (0, _redux.createStore)(_rootReducer2.default, (0, _redux.applyMiddleware)(_reduxThunk2.default));
-	// import courseReducer from './course-reducer';
-	// import categoriesReducer from './categories-reducer';
 
 /***/ },
 /* 259 */
@@ -29196,7 +29194,6 @@
 	    default:
 	      return state;
 	  }
-	  console.log('THIS IS THE NEWSTATE COMING OUT OF REPLY REDUCER:', newState);
 	  return newState;
 	};
 	
@@ -30459,6 +30456,10 @@
 	
 	var _sidebarContainer2 = _interopRequireDefault(_sidebarContainer);
 	
+	var _axios = __webpack_require__(233);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30466,6 +30467,8 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var name = void 0;
 	
 	var Main = function (_React$Component) {
 	  _inherits(Main, _React$Component);
@@ -31131,10 +31134,10 @@
 	    value: function createUser(e) {
 	
 	      e.preventDefault();
-	      _axios2.default.post('/api/students/', this.state).then(function (res) {
-	        return res.data;
-	      }).then(function (student) {
-	        return console.log(student);
+	      _axios2.default.post('/api/students/', this.state)
+	      //.then(res => res.data)
+	      .then(function () {
+	        return _reactRouter.browserHistory.push('/login');
 	      });
 	    }
 	  }, {
@@ -31143,7 +31146,6 @@
 	      var _setState;
 	
 	      var value = e.target.value;
-	      //value = "Mike"
 	      var name = e.target.name;
 	      this.setState((_setState = {}, _defineProperty(_setState, name, value), _defineProperty(_setState, 'dirty', true), _setState));
 	    }
@@ -31271,7 +31273,6 @@
 	});
 	
 	exports.default = function (props) {
-	  console.log('This is props from the REPLY VIEW CONTAINER:', props.replies);
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'container' },
@@ -31607,7 +31608,6 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var mapStateToProps = function mapStateToProps(state, ownProps) {
-	    console.log('THIS IS THE STATE', state);
 	    return {
 	        prompts: state.prompts.allPrompts
 	    };
@@ -31831,7 +31831,6 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var mapStateToProps = function mapStateToProps(state, ownProps) {
-	    console.log('THIS IS THE STATE', state);
 	    return {
 	        replies: state.replies.allReplies
 	    };
