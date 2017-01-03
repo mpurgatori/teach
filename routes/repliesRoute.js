@@ -14,8 +14,11 @@ router.get('/', function(req,res,next) {
       studentId: req.session.studentId
     },
     include: [{
-      model: Prompt
-    }]
+        model: Prompt,
+        include:[{
+          model: Course
+        }]
+      }]
   })
   .then(replies => res.send(replies))
   .catch(next)

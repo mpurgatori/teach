@@ -31273,6 +31273,7 @@
 	});
 	
 	exports.default = function (props) {
+	  console.log('!%!%!%!', props);
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'container' },
@@ -31283,17 +31284,22 @@
 	        _react2.default.createElement(
 	          'h3',
 	          null,
+	          reply.prompt.course.name
+	        ),
+	        _react2.default.createElement(
+	          'h4',
+	          null,
 	          'Q: ',
 	          reply.prompt.content
 	        ),
 	        _react2.default.createElement(
-	          'h3',
+	          'h4',
 	          null,
 	          'A: ',
 	          reply.content
 	        ),
 	        _react2.default.createElement(
-	          'h3',
+	          'h4',
 	          null,
 	          'Feedback: ',
 	          reply.feedback
