@@ -38,7 +38,7 @@ export default function(state = initialState, action){
     case DELETE_REPLY:
       newState.allReplies = [...newState.allReplies];
       let index = newState.allReplies.indexOf(newState.allReplies.find(reply => action.reply.id === reply.id));
-      newState.splice(index,1);
+      newState.allReplies.splice(index,1);
 
       break;
 

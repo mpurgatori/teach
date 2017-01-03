@@ -29198,7 +29198,7 @@
 	      var index = newState.allReplies.indexOf(newState.allReplies.find(function (reply) {
 	        return action.reply.id === reply.id;
 	      }));
-	      newState.splice(index, 1);
+	      newState.allReplies.splice(index, 1);
 	
 	      break;
 	
@@ -29312,9 +29312,10 @@
 	};
 	
 	var removeReply = exports.removeReply = function removeReply(replyId) {
+	  console.log('THIS IS THE AXIOS CALL', replyId);
 	  return function (dispatch) {
-	    _axios2.default.delete('/api/replies', { repId: replyId }).then(function (reply) {
-	      dispatch(deleteReply(reply));
+	    _axios2.default.delete('/api/replies', { data: { id: replyId } }).then(function (rep) {
+	      dispatch(deleteReply(rep.data));
 	    });
 	  };
 	};
@@ -31334,8 +31335,9 @@
 	    key: 'remReply',
 	    value: function remReply(e) {
 	      e.preventDefault();
-	      console.log('THIS IS THE REPLY ID', e.target.value);
-	      this.props.removeReply(e.target.value);
+	      var rId = e.target.attributes[0].value;
+	      console.log('attribute value', e.target.value);
+	      this.props.removeReply(rId);
 	    }
 	  }, {
 	    key: 'render',

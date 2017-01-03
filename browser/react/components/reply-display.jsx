@@ -9,8 +9,9 @@ export default class extends React.Component {
 
 remReply(e){
   e.preventDefault();
-  console.log('THIS IS THE REPLY ID', e.target.value);
-  this.props.removeReply(e.target.value);
+  const rId = e.target.attributes[0].value;
+  console.log('attribute value', e.target.value);
+  this.props.removeReply(rId);
 }
 
 render(){

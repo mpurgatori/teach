@@ -95,13 +95,27 @@ router.post('/', function(req, res, next){
 
 
 router.delete('/', function(req,res,next){
+  let sendRep;
   console.log('THIS IS REPLIES ROUTE FOR DELETE', req.body);
-  return Reply.destroy({
+  return Reply.findOne({
     where: {
-      id: req.body.repId
+      id: req.body.id
     }
   })
-  .then((dat)=> console.log(dat))
+  .then(function(rep){
+    sendRep = rep;
+  })
+  .then(function(){
+  return Reply.destroy({
+    where: {
+      id: req.body.id
+    }
+    })
+  })
+  .then(function(){
+    console.log('sendRep', sendRep);
+    res.send(sendRep)
+  })
   .catch(next)
 })
 

@@ -83,10 +83,11 @@ export const deleteReply = function (reply) {
 };
 
 export const removeReply = (replyId) => {
+  console.log('THIS IS THE AXIOS CALL', replyId);
   return dispatch => {
-    axios.delete('/api/replies', { repId: replyId})
-    .then( reply => {
-      dispatch(deleteReply(reply))
+    axios.delete('/api/replies', { data: {id: replyId}})
+    .then(rep => {
+      dispatch(deleteReply(rep.data))
     })
   };
 }
