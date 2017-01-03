@@ -1,4 +1,4 @@
-import { ADD_REPLY, LOAD_REPLIES, LOAD_TEACH_REPS, UPDATE_REPLY } from './constants';
+import { ADD_REPLY, LOAD_REPLIES, LOAD_TEACH_REPS, UPDATE_REPLY } from '../constants';
 import axios from 'axios';
 
 export const addReply = function (reply) {

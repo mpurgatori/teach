@@ -115,60 +115,44 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var onPromptEnter = function onPromptEnter() {
-			_store2.default.dispatch((0, _coursesAction.loadCourses)());
-			_store2.default.dispatch((0, _categoriesAction.loadCategories)());
+	  _store2.default.dispatch((0, _coursesAction.loadCourses)());
+	  _store2.default.dispatch((0, _categoriesAction.loadCategories)());
 	};
 	
 	var onReplyEnter = function onReplyEnter() {
-			_store2.default.dispatch((0, _promptAction.loadPrompts)());
+	  _store2.default.dispatch((0, _promptAction.loadPrompts)());
 	};
 	
 	var onViewEnter = function onViewEnter() {
-			_store2.default.dispatch((0, _replyAction.loadReplies)());
+	  _store2.default.dispatch((0, _replyAction.loadReplies)());
 	};
 	
 	var onTeachReply = function onTeachReply() {
-			_store2.default.dispatch((0, _replyAction.loadRepliesTeach)());
+	  _store2.default.dispatch((0, _replyAction.loadRepliesTeach)());
 	};
 	
 	var loginCheck = function loginCheck() {
-			_store2.default.dispatch((0, _sessionAction.getSession)());
+	  _store2.default.dispatch((0, _sessionAction.getSession)());
 	};
 	
-	// const onPromptEnter = function () {
-	//   Promise.all([
-	//     axios.get('/api/courses'),
-	//     axios.get('/api/categories'),
-	//
-	//   ])
-	//     .then(responses => responses.map(r => r.data))
-	//     .then(([courses, categories]) => {
-	//       store.dispatch(receiveCourses(courses));
-	//       store.dispatch(receiveCategories(categories));
-	//     });
-	//
-	// };
-	//
-	
-	
 	_reactDom2.default.render(_react2.default.createElement(
-			_reactRedux.Provider,
-			{ store: _store2.default },
-			_react2.default.createElement(
-					_reactRouter.Router,
-					{ history: _reactRouter.browserHistory },
-					_react2.default.createElement(
-							_reactRouter.Route,
-							{ path: '/', component: _main2.default, onEnter: loginCheck },
-							_react2.default.createElement(_reactRouter.Route, { path: '/login', component: _loginContainer2.default }),
-							_react2.default.createElement(_reactRouter.Route, { path: '/loginteach', component: _teacherLoginContainer2.default }),
-							_react2.default.createElement(_reactRouter.Route, { path: '/signup', component: _signup2.default }),
-							_react2.default.createElement(_reactRouter.Route, { path: '/view', component: _replyDisplayContainer2.default, onEnter: onViewEnter }),
-							_react2.default.createElement(_reactRouter.Route, { path: '/replywrite', component: _replyContainer2.default, onEnter: onReplyEnter }),
-							_react2.default.createElement(_reactRouter.Route, { path: '/promptwrite', component: _promptContainer2.default, onEnter: onPromptEnter }),
-							_react2.default.createElement(_reactRouter.Route, { path: '/feedback', component: _giveContainer2.default, onEnter: onTeachReply })
-					)
-			)
+	  _reactRedux.Provider,
+	  { store: _store2.default },
+	  _react2.default.createElement(
+	    _reactRouter.Router,
+	    { history: _reactRouter.browserHistory },
+	    _react2.default.createElement(
+	      _reactRouter.Route,
+	      { path: '/', component: _main2.default, onEnter: loginCheck },
+	      _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _loginContainer2.default }),
+	      _react2.default.createElement(_reactRouter.Route, { path: '/loginteach', component: _teacherLoginContainer2.default }),
+	      _react2.default.createElement(_reactRouter.Route, { path: '/signup', component: _signup2.default }),
+	      _react2.default.createElement(_reactRouter.Route, { path: '/view', component: _replyDisplayContainer2.default, onEnter: onViewEnter }),
+	      _react2.default.createElement(_reactRouter.Route, { path: '/replywrite', component: _replyContainer2.default, onEnter: onReplyEnter }),
+	      _react2.default.createElement(_reactRouter.Route, { path: '/promptwrite', component: _promptContainer2.default, onEnter: onPromptEnter }),
+	      _react2.default.createElement(_reactRouter.Route, { path: '/feedback', component: _giveContainer2.default, onEnter: onTeachReply })
+	    )
+	  )
 	), document.getElementById('app'));
 
 /***/ },
@@ -30852,7 +30836,6 @@
 	      var _setState;
 	
 	      var value = e.target.value;
-	      //value = "Mike"
 	      var name = e.target.name;
 	      this.setState((_setState = {}, _defineProperty(_setState, name, value), _defineProperty(_setState, 'dirty', true), _setState));
 	    }
@@ -31016,7 +30999,6 @@
 	      var _setState;
 	
 	      var value = e.target.value;
-	      //value = "Mike"
 	      var name = e.target.name;
 	      this.setState((_setState = {}, _defineProperty(_setState, name, value), _defineProperty(_setState, 'dirty', true), _setState));
 	    }
@@ -31420,7 +31402,6 @@
 	    _this.state = initialState;
 	    _this.handleChange = _this.handleChange.bind(_this);
 	    _this.promptSubmit = _this.promptSubmit.bind(_this);
-	    //this.formReset = this.formReset.bind(this);
 	    return _this;
 	  }
 	
@@ -31434,15 +31415,6 @@
 	
 	      this.setState((_setState = {}, _defineProperty(_setState, name, value), _defineProperty(_setState, 'dirty', true), _setState));
 	    }
-	
-	    // formReset(){
-	    //   this.setState({
-	    //     content: 'value',
-	    //     dirty: false
-	    //   });
-	    //   target.courseId = 'Select Course'
-	    // }
-	
 	  }, {
 	    key: 'promptSubmit',
 	    value: function promptSubmit(e) {
@@ -31658,7 +31630,6 @@
 	});
 	
 	exports.default = function (props) {
-	  console.log('************', props);
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'container' },
@@ -31769,7 +31740,6 @@
 	  }, {
 	    key: 'replySubmit',
 	    value: function replySubmit(e) {
-	      console.log('!^!^!^!^!^!^', this.props);
 	      e.preventDefault();
 	      this.props.createReply(this.props.prompt.id, this.state.content);
 	    }
@@ -32004,6 +31974,18 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          'Student: ',
+	          this.props.reply.student.fullName
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          'Course: ',
+	          this.props.reply.prompt.course.name
+	        ),
 	        _react2.default.createElement(
 	          'div',
 	          null,

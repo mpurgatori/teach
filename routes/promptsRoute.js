@@ -33,24 +33,25 @@ router.get('/', function (req, res, next) {
       }]
     })
   }
-  if (req.session.teacherId){role='teacher'};
-  if (!role){
-    let err = new Error('User not authorized');
-    err.status = 401;
-    throw err;
-  };
-  return Prompt.findAll(query)
-  .then(prompts => {
-    if (role === 'student') {
-      return prompts.map(prompt => {
-        prompt.dataValues.replies = prompt.dataValues.replies.filter(reply => reply.studentId === req.session.studentId);
-        return prompt;
-      });
-    }
-    return prompts;
-  })
-  .then(prompts => res.send(prompts))
-  .catch(next)
-});
+    if (req.session.teacherId){role='teacher'};
+    if (!role){
+      let err = new Error('User not authorized');
+      err.status = 401;
+      throw err;
+    };
+    return Prompt.findAll(query)
+    .then(prompts => {
+      if (role === 'student') {
+        return prompts.map(prompt => {
+          prompt.dataValues.replies = prompt.dataValues.replies.filter(reply => reply.studentId === req.session.studentId);
+            return prompt;
+        });
+      }
+      return prompts;
+    })
+    .then(prompts => res.send(prompts))
+    .catch(next)
+  });
+
 
 module.exports = router;

@@ -1,4 +1,4 @@
-import { GET_SESSION } from './constants';
+import { GET_SESSION } from '../constants';
 
 
 const initialState = {

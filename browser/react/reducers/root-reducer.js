@@ -5,7 +5,7 @@ import prompts from './prompt-reducer';
 import replies from './reply-reducer';
 import session from './session-reducer';
 
-import { LOGOUT } from './constants';
+import { LOGOUT } from '../constants';
 
 const combReduce = combineReducers({
   courses,

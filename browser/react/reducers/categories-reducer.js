@@ -1,5 +1,5 @@
 import { loadCategories } from './categories-action';
-import { LOAD_CATEGORIES } from './constants'
+import { LOAD_CATEGORIES } from '../constants'
 
 
 

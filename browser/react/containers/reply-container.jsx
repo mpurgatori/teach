@@ -5,7 +5,6 @@ import {receivePrompts} from '../reducers/prompt-action';
 
 
 const mapStateToProps = function(state, ownProps) {
-    console.log('THIS IS THE STATE', state)
     return {
         prompts: state.prompts.allPrompts
     };

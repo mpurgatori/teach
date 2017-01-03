@@ -1,5 +1,5 @@
 import { loadCourses } from './courses-action';
-import { LOAD_COURSES } from './constants';
+import { LOAD_COURSES } from '../constants';
 
 
 

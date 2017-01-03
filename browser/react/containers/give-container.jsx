@@ -5,7 +5,6 @@ import {loadReplyTeach} from '../reducers/reply-action';
 
 
 const mapStateToProps = function(state, ownProps) {
-    console.log('THIS IS THE STATE', state)
     return {
         replies: state.replies.allReplies
     };

@@ -31,6 +31,8 @@ export default class extends React.Component {
     console.log('THIS.PROPS FROM INSIDE FEEDBACK', this.props);
     return (
     <div>
+      <div>Student: {this.props.reply.student.fullName}</div>
+      <div>Course: {this.props.reply.prompt.course.name}</div>
       <div>Prompt: {this.props.reply.prompt.content}</div>
       <div>Student Response: {this.props.reply.content}</div>
       <div className="row">
@@ -57,6 +59,6 @@ export default class extends React.Component {
         </div>
       </div>
     </div>
-            )
+    )
   }
 }

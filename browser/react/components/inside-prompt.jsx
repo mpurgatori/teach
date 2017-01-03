@@ -23,7 +23,6 @@ export default class extends React.Component {
 
 
   replySubmit(e) {
-    console.log('!^!^!^!^!^!^', this.props);
     e.preventDefault();
     this.props.createReply(this.props.prompt.id, this.state.content);
   }
@@ -56,6 +55,6 @@ export default class extends React.Component {
         </div>
       </div>
     </div>
-            )
+    )
   }
 }

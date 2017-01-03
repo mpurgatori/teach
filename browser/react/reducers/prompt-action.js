@@ -1,4 +1,4 @@
-import { LOAD_PROMPTS, ADD_PROMPT } from './constants';
+import { LOAD_PROMPTS, ADD_PROMPT } from '../constants';
 import axios from 'axios';
 
 export const receivePrompts = function (prompts) {

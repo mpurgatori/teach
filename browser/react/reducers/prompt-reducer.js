@@ -1,5 +1,4 @@
-
-import { LOAD_PROMPTS, ADD_REPLY, ADD_PROMPT} from './constants';
+import { LOAD_PROMPTS, ADD_REPLY, ADD_PROMPT} from '../constants';
 
 
 

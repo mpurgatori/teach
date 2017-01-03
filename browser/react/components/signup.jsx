@@ -23,13 +23,12 @@ class Signup extends Component {
 
     e.preventDefault();
     axios.post('/api/students/', this.state)
-    .then(res => res.data)
-    .then(student => console.log(student));
+    //.then(res => res.data)
+    .then(()=> browserHistory.push('/login'));
   }
 
   handleChange(e) {
     const value = e.target.value;
-    //value = "Mike"
     const name = e.target.name;
     this.setState({
       [name]: value,

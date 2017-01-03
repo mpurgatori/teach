@@ -1,4 +1,4 @@
-import { LOAD_CATEGORIES } from './constants';
+import { LOAD_CATEGORIES } from '../constants';
 import axios from 'axios';
 
 export const receiveCategories = function (categories) {

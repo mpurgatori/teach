@@ -1,4 +1,4 @@
-import { LOAD_COURSES } from './constants';
+import { LOAD_COURSES } from '../constants';
 import axios from 'axios';
 
 export const receiveCourses = function (courses) {

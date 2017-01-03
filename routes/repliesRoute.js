@@ -83,10 +83,10 @@ router.post('/', function(req, res, next){
 router.put('/', function(req,res,next){
   return Reply.update(
     { feedback: req.body.feedback },
-           { where:
-             { id: req.body.id }})
-      .then(reply => res.send(reply))
-      .catch(next)
+     { where:
+       { id: req.body.id }})
+  .then(reply => res.send(reply))
+  .catch(next)
 })
 
 

@@ -1,4 +1,4 @@
-import { GET_SESSION, LOGOUT } from './constants';
+import { GET_SESSION, LOGOUT } from '../constants';
 import axios from 'axios';
 
 export function setSession(session){

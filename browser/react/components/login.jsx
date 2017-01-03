@@ -16,7 +16,6 @@ export default class extends Component {
 
   handleChange(e) {
     const value = e.target.value;
-    //value = "Mike"
     const name = e.target.name;
     this.setState({
       [name]: value,
