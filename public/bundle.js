@@ -29028,6 +29028,8 @@
 	var GET_SESSION = exports.GET_SESSION = 'GET_SESSION';
 	
 	var LOGOUT = exports.LOGOUT = 'LOGOUT';
+	
+	var DELETE_REPLY = exports.DELETE_REPLY = 'DELETE_REPLY';
 
 /***/ },
 /* 278 */
@@ -29191,6 +29193,15 @@
 	
 	      break;
 	
+	    case _constants.DELETE_REPLY:
+	      newState.allReplies = [].concat(_toConsumableArray(newState.allReplies));
+	      var index = newState.allReplies.indexOf(newState.allReplies.find(function (reply) {
+	        return action.reply.id === reply.id;
+	      }));
+	      newState.splice(index, 1);
+	
+	      break;
+	
 	    default:
 	      return state;
 	  }
@@ -29216,7 +29227,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.updateReplies = exports.updateReply = exports.loadRepliesTeach = exports.loadReplyTeach = exports.loadReplies = exports.loadReply = exports.createReply = exports.addReply = undefined;
+	exports.removeReply = exports.deleteReply = exports.updateReplies = exports.updateReply = exports.loadRepliesTeach = exports.loadReplyTeach = exports.loadReplies = exports.loadReply = exports.createReply = exports.addReply = undefined;
 	
 	var _constants = __webpack_require__(277);
 	
@@ -29289,6 +29300,21 @@
 	  return function (dispatch) {
 	    _axios2.default.put('/api/replies', reply).then(function () {
 	      dispatch(updateReply(reply));
+	    });
+	  };
+	};
+	
+	var deleteReply = exports.deleteReply = function deleteReply(reply) {
+	  return {
+	    type: _constants.DELETE_REPLY,
+	    reply: reply
+	  };
+	};
+	
+	var removeReply = exports.removeReply = function removeReply(replyId) {
+	  return function (dispatch) {
+	    _axios2.default.delete('/api/replies', { repId: replyId }).then(function (reply) {
+	      dispatch(deleteReply(reply));
 	    });
 	  };
 	};
@@ -31237,7 +31263,7 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 	
 	var _reactRedux = __webpack_require__(285);
@@ -31248,16 +31274,20 @@
 	
 	var _replyAction = __webpack_require__(282);
 	
+	var _redux = __webpack_require__(259);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var mapStateToProps = function mapStateToProps(state, ownProps) {
-	    return {
-	        replies: state.replies.allReplies
-	    };
+	  return {
+	    replies: state.replies.allReplies
+	  };
 	};
 	
 	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
-	    return {};
+	  return {
+	    removeReply: (0, _redux.bindActionCreators)(_replyAction.removeReply, dispatch)
+	  };
 	};
 	
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_replyDisplay2.default);
@@ -31272,43 +31302,7 @@
 	  value: true
 	});
 	
-	exports.default = function (props) {
-	  console.log('!%!%!%!', props);
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'container' },
-	    props.replies.map(function (reply) {
-	      return _react2.default.createElement(
-	        'div',
-	        { key: reply.id },
-	        _react2.default.createElement(
-	          'h3',
-	          null,
-	          reply.prompt.course.name
-	        ),
-	        _react2.default.createElement(
-	          'h4',
-	          null,
-	          'Q: ',
-	          reply.prompt.content
-	        ),
-	        _react2.default.createElement(
-	          'h4',
-	          null,
-	          'A: ',
-	          reply.content
-	        ),
-	        _react2.default.createElement(
-	          'h4',
-	          null,
-	          'Feedback: ',
-	          reply.feedback
-	        ),
-	        _react2.default.createElement('br', null)
-	      );
-	    })
-	  );
-	};
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(1);
 	
@@ -31317,6 +31311,85 @@
 	var _reactRouter = __webpack_require__(178);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var _class = function (_React$Component) {
+	  _inherits(_class, _React$Component);
+	
+	  function _class(props) {
+	    _classCallCheck(this, _class);
+	
+	    var _this = _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this, props));
+	
+	    _this.remReply = _this.remReply.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(_class, [{
+	    key: 'remReply',
+	    value: function remReply(e) {
+	      e.preventDefault();
+	      console.log('THIS IS THE REPLY ID', e.target.value);
+	      this.props.removeReply(e.target.value);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+	
+	      console.log('!%!%!%!', this.props);
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'container' },
+	        this.props.replies.map(function (reply) {
+	          return _react2.default.createElement(
+	            'form',
+	            { key: reply.id, value: reply.id, onSubmit: _this2.remReply },
+	            _react2.default.createElement(
+	              'h3',
+	              null,
+	              reply.prompt.course.name
+	            ),
+	            _react2.default.createElement(
+	              'h4',
+	              null,
+	              'Q: ',
+	              reply.prompt.content
+	            ),
+	            _react2.default.createElement(
+	              'h4',
+	              null,
+	              'A: ',
+	              reply.content
+	            ),
+	            _react2.default.createElement(
+	              'h4',
+	              null,
+	              'Feedback: ',
+	              reply.feedback
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { type: 'submit', className: 'btn btn-xs btn-danger' },
+	              'Delete'
+	            ),
+	            _react2.default.createElement('br', null)
+	          );
+	        })
+	      );
+	    }
+	  }]);
+	
+	  return _class;
+	}(_react2.default.Component);
+	
+	exports.default = _class;
 
 /***/ },
 /* 311 */

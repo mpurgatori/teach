@@ -45,43 +45,67 @@ router.get('/teacher', function (req, res, next) {
 });
 
 
+// router.post('/', function(req, res, next){
+//   let student;
+//   let prompt;
+//   return Promise.all([
+//     Student.findOne({
+//       where: {
+//         id: req.session.studentId
+//       }
+//     }),
+//     Prompt.findOne({
+//       where: {
+//         id: req.body.promptId
+//       }
+//     })
+//   ])
+//   .then(function(values){
+//     student = values[0];
+//     prompt = values[1]
+//     console.log('This is student object',student);
+//   })
+//   .then(()=> {
+//     return Reply.build({
+//       content: req.body.replyContent
+//     })
+//   })
+//   .then(rep => {
+//     rep.setStudent(student);
+//     rep.setPrompt(prompt);
+//     console.log('this is rep',rep);
+//     return rep.save();
+//   })
+//   .then( reply => {
+//     console.log('Here is REPLY', reply);
+//     res.send(reply)
+//   })
+//   .catch(next);
+// })
+
 router.post('/', function(req, res, next){
-  let student;
-  let prompt;
-  return Promise.all([
-    Student.findOne({
-      where: {
-        id: req.session.studentId
-      }
-    }),
-    Prompt.findOne({
-      where: {
-        id: req.body.promptId
-      }
-    })
-  ])
-  .then(function(values){
-    student = values[0];
-    prompt = values[1]
-    console.log('This is student object',student);
+  return Reply.create({
+    content: req.body.replyContent,
+    promptId: req.body.promptId,
+    studentId: req.session.studentId
   })
-  .then(()=> {
-    return Reply.build({
-      content: req.body.replyContent
-    })
-  })
-  .then(rep => {
-    rep.setStudent(student);
-    rep.setPrompt(prompt);
-    console.log('this is rep',rep);
-    return rep.save();
-  })
-  .then( reply => {
-    console.log('Here is REPLY', reply);
-    res.send(reply)
-  })
+  .then( reply => res.send(reply))
   .catch(next);
 })
+
+
+router.delete('/', function(req,res,next){
+  console.log('THIS IS REPLIES ROUTE FOR DELETE', req.body);
+  return Reply.destroy({
+    where: {
+      id: req.body.repId
+    }
+  })
+  .then((dat)=> console.log(dat))
+  .catch(next)
+})
+
+
 
 router.put('/', function(req,res,next){
   return Reply.update(

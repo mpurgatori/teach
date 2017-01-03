@@ -1,4 +1,4 @@
-import { ADD_REPLY, LOAD_REPLIES, LOAD_TEACH_REPS, UPDATE_REPLY } from '../constants';
+import { ADD_REPLY, LOAD_REPLIES, LOAD_TEACH_REPS, UPDATE_REPLY, DELETE_REPLY } from '../constants';
 import axios from 'axios';
 
 export const addReply = function (reply) {
@@ -54,12 +54,12 @@ export const addReply = function (reply) {
     };
   };
 
-  export const updateReply = function (reply) {
-    return {
-      type: UPDATE_REPLY,
-      reply
-    };
+export const updateReply = function (reply) {
+  return {
+    type: UPDATE_REPLY,
+    reply
   };
+};
 
 export const updateReplies = (id, feedback) => {
   const reply = {
@@ -70,6 +70,23 @@ export const updateReplies = (id, feedback) => {
     axios.put('/api/replies', reply)
     .then(()=> {
       dispatch(updateReply(reply))
+    })
+  };
+}
+
+
+export const deleteReply = function (reply) {
+  return {
+    type: DELETE_REPLY,
+    reply
+  };
+};
+
+export const removeReply = (replyId) => {
+  return dispatch => {
+    axios.delete('/api/replies', { repId: replyId})
+    .then( reply => {
+      dispatch(deleteReply(reply))
     })
   };
 }

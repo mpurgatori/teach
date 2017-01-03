@@ -1,5 +1,5 @@
 import { createReply, loadReplies, loadReply, loadReplyTeach, loadRepliesTeach, updateReplies, updateReply } from './reply-action';
-import { ADD_REPLY, LOAD_REPLIES, LOAD_TEACH_REPS, UPDATE_REPLY } from '../constants';
+import { ADD_REPLY, LOAD_REPLIES, LOAD_TEACH_REPS, UPDATE_REPLY, DELETE_REPLY } from '../constants';
 
 
 
@@ -32,6 +32,13 @@ export default function(state = initialState, action){
     case UPDATE_REPLY:
       newState.allReplies = [...newState.allReplies];
       newState.allReplies.find(reply => action.reply.id === reply.id).feedback = action.reply.feedback;
+
+      break;
+
+    case DELETE_REPLY:
+      newState.allReplies = [...newState.allReplies];
+      let index = newState.allReplies.indexOf(newState.allReplies.find(reply => action.reply.id === reply.id));
+      newState.splice(index,1);
 
       break;
 

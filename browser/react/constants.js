@@ -12,3 +12,5 @@ export const ADD_PROMPT = 'ADD_PROMPT';
 export const GET_SESSION = 'GET_SESSION';
 
 export const LOGOUT = 'LOGOUT';
+
+export const DELETE_REPLY = 'DELETE_REPLY';

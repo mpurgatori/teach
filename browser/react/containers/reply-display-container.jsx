@@ -1,6 +1,8 @@
 import { connect } from 'react-redux';
 import ReplyDisplay from '../components/reply-display.jsx';
-import { loadReply } from '../reducers/reply-action';
+import { removeReply } from '../reducers/reply-action';
+
+import { bindActionCreators} from 'redux';
 
 
 
@@ -11,7 +13,9 @@ const mapStateToProps = function(state, ownProps) {
 }
 
 const mapDispatchToProps = function(dispatch, ownProps) {
-  return {};
+  return {
+    removeReply: bindActionCreators(removeReply, dispatch)
+  };
 }
 
 
